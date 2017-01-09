@@ -77,6 +77,7 @@ describe('Changing settings via api', () => {
 		});
 
 		it('should not show the edit messages', () => {
+			browser.pause(100);
 			mainContent.sendMessage('Message for Message Edit Block');
 			mainContent.openMessageActionMenu();
 			mainContent.messageEdit.isVisible().should.be.false;
@@ -98,6 +99,7 @@ describe('Changing settings via api', () => {
 		});
 
 		it('should not show the delete messages', () => {
+			browser.pause(100);
 			mainContent.sendMessage('Message for Message delete Block');
 			mainContent.openMessageActionMenu();
 			mainContent.messageDelete.isVisible().should.be.false;
