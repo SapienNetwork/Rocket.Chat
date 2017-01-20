@@ -84,7 +84,7 @@ usernameIsAvaliable = (username) ->
 RocketChat.generateUsernameSuggestion = generateSuggestion
 
 Meteor.methods
-	getUsernameSuggestion: ->
+	getUsernameSuggestion: (user) ->
 		###
 		unless Meteor.userId()
 			throw new Meteor.Error 'error-invalid-user', 'Invalid user', { method: 'getUsernameSuggestion' }
