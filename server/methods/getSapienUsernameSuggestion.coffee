@@ -38,7 +38,7 @@ usernameIsAvaliable = (username) ->
 
 	if user.profile?.name?
 		if RocketChat.settings.get 'UTF8_Names_Slugify'
-			usernames.push slug user.profile.name
+			usernames.push slug user.profile.nwame
 		else
 			usernames.push user.profile.name
 
@@ -84,11 +84,6 @@ usernameIsAvaliable = (username) ->
 RocketChat.generateUsernameSuggestion = generateSuggestion
 
 Meteor.methods
-	getUsernameSuggestion: ->
-		
-		unless Meteor.userId()
-			throw new Meteor.Error 'error-invalid-user', 'Invalid user', { method: 'getUsernameSuggestion' }
-
-		user = Meteor.user()
+	getSapienUsernameSuggestion: (user) ->
 		
 		return generateSuggestion(user)
