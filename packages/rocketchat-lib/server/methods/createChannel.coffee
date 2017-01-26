@@ -2,7 +2,7 @@ Meteor.methods
 	createChannel: (name, members, readOnly = false, customFields = {}) ->
 
 		check name, String
-		check members, Match.Optional([String])
+		#check members, Match.Optional([String])
 
 		if not Meteor.userId()
 			throw new Meteor.Error 'error-invalid-user', "Invalid user", { method: 'createChannel' }
