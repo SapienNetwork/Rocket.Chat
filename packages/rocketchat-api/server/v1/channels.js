@@ -130,11 +130,11 @@ RocketChat.API.v1.addRoute('channels.create', { authRequired: true }, {
 		if (!this.bodyParams.name) {
 			return RocketChat.API.v1.failure('Body param "name" is required');
 		}
-		/*
+		
 		if (this.bodyParams.members && !_.isArray(this.bodyParams.members)) {
 			return RocketChat.API.v1.failure('Body param "members" must be an array if provided');
 		}
-		*/
+
 		if (this.bodyParams.customFields && !(typeof this.bodyParams.customFields === 'object')) {
 			return RocketChat.API.v1.failure('Body param "customFields" must be an object if provided');
 		}
