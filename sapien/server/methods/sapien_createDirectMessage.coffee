@@ -64,7 +64,7 @@ Meteor.methods
 			upsertSubscription
 
 		# Make user the target user has a subcription to this room
-		RocketChat.models.Subscriptions.upsert
+		RocketChat.models.Subscriptions.upsert(
 			rid: rid
 			$and: [{'u._id': to._id}] # work around to solve problems with upsert and dot
 		,
@@ -77,6 +77,10 @@ Meteor.methods
 				u:
 					_id: to._id
 					username: to.username
+               )
+
+               #open room for other user
+		RocketChat.models.Subscriptions.openByRoomIdAndUserId rid, to._id
 
 		return {
 			rid: rid
