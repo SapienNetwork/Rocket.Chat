@@ -50,7 +50,7 @@ RocketChat.API.v1.addRoute('sapien.channels.create', { authRequired: true }, {
 
 		let id;
 		Meteor.runAsUser(this.userId, () => {
-			id = Meteor.call('createChannel', this.bodyParams.name, this.bodyParams.members ? this.bodyParams.members : [], readOnly, this.bodyParams.customFields);
+			id = Meteor.call('sapien_createChannel', this.bodyParams.name, this.bodyParams.members ? this.bodyParams.members : [], readOnly, this.bodyParams.customFields);
 		});
 
 		return RocketChat.API.v1.success({
