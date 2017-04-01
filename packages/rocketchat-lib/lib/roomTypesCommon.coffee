@@ -14,6 +14,7 @@ class @roomTypesCommon
 			action: route action function
 	###
 	add: (identifier, order, config) ->
+		console.log('id: '+identifier)
 		unless identifier?
 			identifier = Random.id()
 
@@ -29,6 +30,9 @@ class @roomTypesCommon
 			identifier: identifier
 			order: order
 		@roomTypes[identifier] = config
+		console.log('id: '+identifier+' config: '+config)
+		#for type in @roomTypesOrder
+		#	console.log("Identifier: "+type.identifier)
 
 		if config.route?.path? and config.route?.name? and config.route?.action?
 			routeConfig =

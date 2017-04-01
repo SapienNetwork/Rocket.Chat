@@ -36,6 +36,9 @@ Package.onUse(function(api) {
 	api.addFiles('side-nav/toolbar.html', 'client');
 	api.addFiles('side-nav/unreadRooms.html', 'client');
 	api.addFiles('side-nav/userStatus.html', 'client');
+	api.addFiles('side-nav/voiceChannels.html', 'client')
+	api.addFiles('side-nav/listVoiceChannelsFlex.html', 'client');
+	api.addFiles('side-nav/voiceChatRoomItem.html', 'client');
 
 	api.addFiles('side-nav/accountBox.coffee', 'client');
 	api.addFiles('side-nav/combined.coffee', 'client');
@@ -52,6 +55,9 @@ Package.onUse(function(api) {
 	api.addFiles('side-nav/starredRooms.coffee', 'client');
 	api.addFiles('side-nav/toolbar.js', 'client');
 	api.addFiles('side-nav/unreadRooms.coffee', 'client');
+	api.addFiles('side-nav/voiceChannels.coffee', 'client');
+	api.addFiles('side-nav/listVoiceChannelsFlex.coffee', 'client');
+	api.addFiles('side-nav/voiceChatRoomItem.coffee', 'client');
 });
 
 Npm.depends({

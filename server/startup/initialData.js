@@ -4,6 +4,9 @@ Meteor.startup(function() {
 			RocketChat.models.Rooms.createWithIdTypeAndName('GENERAL', 'c', 'general', {
 				'default': true
 			});
+			Rocketchat.models.Rooms.createWithIdTypeAndName('VOICE', 'v', 'voice', {
+				'default': true
+			});
 		}
 
 		if (!RocketChat.models.Users.db.findOneById('rocket.cat')) {

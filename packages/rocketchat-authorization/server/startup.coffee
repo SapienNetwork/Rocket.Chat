@@ -16,10 +16,12 @@ Meteor.startup ->
 		{ _id: 'create-c',                      roles : ['admin', 'user', 'bot'] }
 		{ _id: 'create-d',                      roles : ['admin', 'user', 'bot'] }
 		{ _id: 'create-p',                      roles : ['admin', 'user', 'bot'] }
+		{ _id: 'create-v',						roles : ['admin', 'user', 'bot'] }
 		{ _id: 'create-user',                   roles : ['admin'] }
 		{ _id: 'clean-channel-history',         roles : ['admin'] } # special permission to bulk delete a channel's mesages
 		{ _id: 'delete-c',                      roles : ['admin'] }
 		{ _id: 'delete-d',                      roles : ['admin'] }
+		{ _id: 'delete-v',						roles : ['admin'] }
 		{ _id: 'delete-message',                roles : ['admin', 'owner', 'moderator'] }
 		{ _id: 'delete-p',                      roles : ['admin'] }
 		{ _id: 'delete-user',                   roles : ['admin'] }
@@ -44,6 +46,7 @@ Meteor.startup ->
 		{ _id: 'unarchive-room',                roles : ['admin'] }
 		{ _id: 'view-c-room',                   roles : ['admin', 'user', 'bot'] }
 		{ _id: 'view-d-room',                   roles : ['admin', 'user', 'bot'] }
+		{ _id: 'view-v-room',					roles : ['admin', 'user', 'bot']}
 		{ _id: 'view-full-other-user-info',     roles : ['admin'] }
 		{ _id: 'view-history',                  roles : ['admin', 'user'] }
 		{ _id: 'view-joined-room',              roles : ['guest', 'bot'] }
@@ -56,6 +59,7 @@ Meteor.startup ->
 		{ _id: 'view-statistics',               roles : ['admin'] }
 		{ _id: 'view-user-administration',      roles : ['admin'] }
 		{ _id: 'preview-c-room',                roles : ['admin', 'user'] }
+		{ _id: 'preview-v-room',				roles : ['admin', 'user'] }
 	]
 
 	for permission in permissions
