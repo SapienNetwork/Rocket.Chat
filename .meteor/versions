@@ -75,8 +75,14 @@ matb33:collection-hooks@0.8.4
 mdg:validation-error@0.5.1
 meteor@1.6.1
 meteor-base@1.0.4
+<<<<<<< HEAD
 meteor-developer-oauth@1.2.0
+=======
+meteor-developer@1.1.10
+meteorhacks:async@1.0.0
+>>>>>>> 1f49c31... adds voice channels using twilio conferencing
 meteorhacks:inject-initial@1.0.4
+meteorhacks:npm@1.5.0
 meteorspark:util@0.2.0
 minifier-css@1.2.16
 minifier-js@1.2.17
@@ -95,6 +101,7 @@ mystor:device-detection@0.2.0
 nimble:restivus@0.8.12
 nooitaf:colors@1.1.2_1
 npm-bcrypt@0.9.2
+npm-container@1.2.0
 npm-mongo@2.2.16_1
 oauth@1.1.13
 oauth1@1.1.11
@@ -202,6 +209,7 @@ rocketchat:streamer@0.5.0
 rocketchat:theme@0.0.1
 rocketchat:tooltip@0.0.1
 rocketchat:tutum@0.0.1
+rocketchat:twilio@0.0.1
 rocketchat:ui@0.1.0
 rocketchat:ui-account@0.1.0
 rocketchat:ui-admin@0.1.0

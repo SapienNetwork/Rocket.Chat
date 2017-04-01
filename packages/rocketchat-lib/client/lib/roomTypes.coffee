@@ -7,7 +7,7 @@ RocketChat.roomTypes = new class roomTypesClient extends roomTypesCommon
 
 		_.sortBy(@roomTypesOrder, 'order').forEach (type) =>
 			orderedTypes.push @roomTypes[type.identifier]
-
+		console.log("lentypes: "+orderedTypes.length)
 		return orderedTypes
 
 	getIcon: (roomType) ->

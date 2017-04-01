@@ -2,14 +2,14 @@ import moment from 'moment'
 
 Template.privateHistory.helpers
 	history: ->
-		items = ChatSubscription.find { name: { $regex: Session.get('historyFilter'), $options: 'i' }, t: { $in: ['d', 'c', 'p'] }, archived: { $ne: true } }, {'sort': { 'ts': -1 } }
+		items = ChatSubscription.find { name: { $regex: Session.get('historyFilter'), $options: 'i' }, t: { $in: ['d', 'c', 'p', 'v'] }, archived: { $ne: true } }, {'sort': { 'ts': -1 } }
 		return {
 			items: items
 			length: items.count()
 		}
 
 	archivedHistory: ->
-		items = ChatSubscription.find { name: { $regex: Session.get('historyFilter'), $options: 'i' }, t: { $in: ['d', 'c', 'p'] }, archived: true }, {'sort': { 'ts': -1 } }
+		items = ChatSubscription.find { name: { $regex: Session.get('historyFilter'), $options: 'i' }, t: { $in: ['d', 'c', 'p', 'v'] }, archived: true }, {'sort': { 'ts': -1 } }
 		return {
 			items: items
 			length: items.count()
@@ -23,6 +23,7 @@ Template.privateHistory.helpers
 			when 'd' then 'icon-at'
 			when 'c' then 'icon-hash'
 			when 'p' then 'icon-lock'
+			when 'v' then 'icon-hash'
 
 	creation: ->
 		return moment(this.ts).format('LLL')
@@ -38,6 +39,8 @@ Template.privateHistory.helpers
 				return FlowRouter.path 'group', { name: this.name }
 			when 'd'
 				return FlowRouter.path 'direct', { username: this.name }
+			when 'v'
+				return FlowRouter.path 'voice', {name: this.name}
 
 Template.privateHistory.events
 	'keydown #history-filter': (event) ->

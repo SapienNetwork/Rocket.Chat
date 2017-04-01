@@ -26,7 +26,13 @@ RocketChat.callbacks.add('afterSaveMessage', (message) => {
 }, 2000, 'trackEvents');
 
 //Rooms
-RocketChat.callbacks.add('afterCreateChannel', (owner, room) => {
+RocketChat.callbacks.add('afterCreateVoiceChannel', (room) => {
+	if (window._paq && RocketChat.settings.get('PiwikAnalytics_features_rooms')) {
+		window._paq.push(['trackEvent', 'Room', 'Create', room.name + ' (' + room._id + ')' ]);
+	}
+}, RocketChat.callbacks.priority.MEDIUM, 'piwik-after-create-voice-channel');
+
+RocketChat.callbacks.add('afterCreateChannel', (room) => {
 	if (window._paq && RocketChat.settings.get('PiwikAnalytics_features_rooms')) {
 		window._paq.push(['trackEvent', 'Room', 'Create', room.name + ' (' + room._id + ')' ]);
 	}

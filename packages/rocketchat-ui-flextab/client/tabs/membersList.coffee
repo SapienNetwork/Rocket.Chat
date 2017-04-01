@@ -3,7 +3,7 @@ Template.membersList.helpers
 		return t('Add_users')
 
 	isGroupChat: ->
-		return ChatRoom.findOne(this.rid, { reactive: false })?.t in ['c', 'p']
+		return ChatRoom.findOne(this.rid, { reactive: false })?.t in ['c', 'p', 'v']
 
 	isDirectChat: ->
 		return ChatRoom.findOne(this.rid, { reactive: false })?.t is 'd'
@@ -69,6 +69,7 @@ Template.membersList.helpers
 			when 'p' then RocketChat.authz.hasAtLeastOnePermission ['add-user-to-any-p-room', 'add-user-to-joined-room'], this._id
 			when 'c' then RocketChat.authz.hasAtLeastOnePermission ['add-user-to-any-c-room', 'add-user-to-joined-room'], this._id
 			else false
+		return roomData.t in ['p', 'c', 'v'] and RocketChat.authz.hasAllPermission('add-user-to-room', this._id)
 
 	autocompleteSettingsAddUser: ->
 		return {
@@ -103,8 +104,8 @@ Template.membersList.helpers
 			tabBar: Template.currentData().tabBar
 			username: Template.instance().userDetail.get()
 			clear: Template.instance().clearUserDetail
-			showAll: room?.t in ['c', 'p']
-			hideAdminControls: room?.t in ['c', 'p', 'd']
+			showAll: room?.t in ['c', 'p', 'v']
+			hideAdminControls: room?.t in ['c', 'p', 'd', 'v']
 			video: room?.t in ['d']
 		}
 

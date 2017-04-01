@@ -87,7 +87,9 @@ Template.createCombinedFlex.events
 		name = instance.find('#channel-name').value.toLowerCase().trim()
 		privateGroup = instance.find('#channel-type').checked
 		readOnly = instance.find('#channel-ro').checked
+		voiceChannel = instance.find('#channel-voice').checked
 		createRoute = if privateGroup then 'createPrivateGroup' else 'createChannel'
+		createRoute = if voiceChannel then 'createVoiceChannel' else 'createChannel'
 		successRoute = if privateGroup then 'group' else 'channel'
 		instance.roomName.set name
 		if not err
@@ -108,8 +110,9 @@ Template.createCombinedFlex.events
 
 				SideNav.closeFlex ->
 					instance.clearForm()
-
-				if not privateGroup
+				if voiceChannel
+					RocketChat.callbacks.run 'afterCreateVoiceChannel'
+				else if not privateGroup
 					RocketChat.callbacks.run 'aftercreateCombined', { _id: result.rid, name: name }
 
 				FlowRouter.go successRoute, { name: name }, FlowRouter.current().queryParams
