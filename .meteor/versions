@@ -75,12 +75,9 @@ matb33:collection-hooks@0.8.4
 mdg:validation-error@0.5.1
 meteor@1.6.1
 meteor-base@1.0.4
-<<<<<<< HEAD
 meteor-developer-oauth@1.2.0
-=======
 meteor-developer@1.1.10
 meteorhacks:async@1.0.0
->>>>>>> 1f49c31... adds voice channels using twilio conferencing
 meteorhacks:inject-initial@1.0.4
 meteorhacks:npm@1.5.0
 meteorspark:util@0.2.0
