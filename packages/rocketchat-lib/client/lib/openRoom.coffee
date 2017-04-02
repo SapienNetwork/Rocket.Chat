@@ -10,8 +10,9 @@ currentTracker = undefined
 
 	Meteor.defer ->
 
-		Twilio.Device.disconnectAll();
+		
 		if type is 'v'
+			Twilio.Device.disconnectAll();
 			HTTP.call 'GET', 'http://20364771.ngrok.io/token', (error, res) ->
 			  if error
 			    console.log error

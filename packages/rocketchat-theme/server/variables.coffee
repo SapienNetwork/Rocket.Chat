@@ -20,7 +20,7 @@ alphaColors=
 # Names changed to reflect usage, comments show pre-refactor names
 majorColors=
   'content-background-color': '#FFFFFF'
-  'primary-background-color': '#04436A'
+  'primary-background-color': '#2b2b2b'
   'primary-font-color': '#444444'
   'primary-action-color': '#13679A' # was action-buttons-color
   'secondary-background-color': '#F4F4F4'
