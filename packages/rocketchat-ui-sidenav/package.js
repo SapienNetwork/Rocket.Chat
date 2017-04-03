@@ -36,6 +36,12 @@ Package.onUse(function(api) {
 	api.addFiles('client/toolbar.html', 'client');
 	api.addFiles('client/unreadRooms.html', 'client');
 	api.addFiles('client/userStatus.html', 'client');
+	api.addFiles('client/voiceChannels.html', 'client')
+	api.addFiles('client/listVoiceChannelsFlex.html', 'client');
+	api.addFiles('client/voiceChatRoomItem.html', 'client');
+
+
+
 
 	api.addFiles('client/accountBox.coffee', 'client');
 	api.addFiles('client/combined.coffee', 'client');
@@ -52,44 +58,9 @@ Package.onUse(function(api) {
 	api.addFiles('client/starredRooms.coffee', 'client');
 	api.addFiles('client/toolbar.js', 'client');
 	api.addFiles('client/unreadRooms.coffee', 'client');
-	api.addFiles('side-nav/accountBox.html', 'client');
-	api.addFiles('side-nav/combined.html', 'client');
-	api.addFiles('side-nav/chatRoomItem.html', 'client');
-	api.addFiles('side-nav/channels.html', 'client');
-	api.addFiles('side-nav/createCombinedFlex.html', 'client');
-	api.addFiles('side-nav/directMessages.html', 'client');
-	api.addFiles('side-nav/listChannelsFlex.html', 'client');
-	api.addFiles('side-nav/listCombinedFlex.html', 'client');
-	api.addFiles('side-nav/listPrivateGroupsFlex.html', 'client');
-	api.addFiles('side-nav/privateGroups.html', 'client');
-	api.addFiles('side-nav/privateGroupsFlex.html', 'client');
-	api.addFiles('side-nav/sideNav.html', 'client');
-	api.addFiles('side-nav/starredRooms.html', 'client');
-	api.addFiles('side-nav/toolbar.html', 'client');
-	api.addFiles('side-nav/unreadRooms.html', 'client');
-	api.addFiles('side-nav/userStatus.html', 'client');
-	api.addFiles('side-nav/voiceChannels.html', 'client')
-	api.addFiles('side-nav/listVoiceChannelsFlex.html', 'client');
-	api.addFiles('side-nav/voiceChatRoomItem.html', 'client');
-
-	api.addFiles('side-nav/accountBox.coffee', 'client');
-	api.addFiles('side-nav/combined.coffee', 'client');
-	api.addFiles('side-nav/chatRoomItem.coffee', 'client');
-	api.addFiles('side-nav/channels.coffee', 'client');
-	api.addFiles('side-nav/createCombinedFlex.coffee', 'client');
-	api.addFiles('side-nav/directMessages.coffee', 'client');
-	api.addFiles('side-nav/listChannelsFlex.coffee', 'client');
-	api.addFiles('side-nav/listCombinedFlex.coffee', 'client');
-	api.addFiles('side-nav/listPrivateGroupsFlex.coffee', 'client');
-	api.addFiles('side-nav/privateGroups.coffee', 'client');
-	api.addFiles('side-nav/privateGroupsFlex.coffee', 'client');
-	api.addFiles('side-nav/sideNav.coffee', 'client');
-	api.addFiles('side-nav/starredRooms.coffee', 'client');
-	api.addFiles('side-nav/toolbar.js', 'client');
-	api.addFiles('side-nav/unreadRooms.coffee', 'client');
-	api.addFiles('side-nav/voiceChannels.coffee', 'client');
-	api.addFiles('side-nav/listVoiceChannelsFlex.coffee', 'client');
-	api.addFiles('side-nav/voiceChatRoomItem.coffee', 'client');
+	api.addFiles('client/voiceChannels.coffee', 'client');
+	api.addFiles('client/listVoiceChannelsFlex.coffee', 'client');
+	api.addFiles('client/voiceChatRoomItem.coffee', 'client');
 });
 
 Npm.depends({
