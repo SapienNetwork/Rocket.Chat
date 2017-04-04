@@ -4,24 +4,16 @@ currentTracker = undefined
 	if type is 'v'
 		Session.set 'openedVoiceChannel', null
 		Session.set 'mostRecentRoomType', 'v'
+		Twilio.Device.disconnectAll();
 	else
 		Session.set 'openedRoom', null
 		Session.set 'mostRecentRoomType', type
 
 	Meteor.defer ->
-
-		
 		if type is 'v'
-			Twilio.Device.disconnectAll();
-			HTTP.call 'GET', 'http://20364771.ngrok.io/token', (error, res) ->
-			  if error
-			    console.log error
-			  else
-			  	token = (JSON.parse res.content).token
-			  	Twilio.Device.setup(token)
-			  	console.log Twilio.Device
-			  	params = room: name
-			  	Twilio.Device.connect(params)
+			#Twilio.Device.disconnectAll();
+			params = room: name
+			Twilio.Device.connect(params)
 			user = Meteor.user()
 			room = RocketChat.roomTypes.findRoom(type, name, user)
 			Session.set 'openedVoiceChannel', room._id

@@ -1,61 +1,15 @@
 Meteor.methods({
-	conference(user,room){
-
-		$.getJSON('http://20364771.ngrok.io/token')
-		    .done(function (data) {
-		      log('Got a token.');
-		      console.log('Token: ' + data.token);
-
-		      // Setup Twilio.Device
-		      Twilio.Device.setup(data.token);
-
-		      Twilio.Device.ready(function (device) {
-		        log('Twilio.Device Ready!');
-		        document.getElementById('call-controls').style.display = 'block';
-		      });
-
-		      Twilio.Device.error(function (error) {
-		        log('Twilio.Device Error: ' + error.message);
-		      });
-
-		      Twilio.Device.connect(function (conn) {
-		        log('Successfully established call!');
-		        document.getElementById('button-call').style.display = 'none';
-		        document.getElementById('button-hangup').style.display = 'inline';
-		      });
-
-		      Twilio.Device.disconnect(function (conn) {
-		        log('Call ended.');
-		        document.getElementById('button-call').style.display = 'inline';
-		        document.getElementById('button-hangup').style.display = 'none';
-		      });
-
-		      Twilio.Device.incoming(function (conn) {
-		        log('Incoming connection from ' + conn.parameters.From);
-		        var archEnemyPhoneNumber = '+12099517118';
-
-		        if (conn.parameters.From === archEnemyPhoneNumber) {
-		          conn.reject();
-		          log('It\'s your nemesis. Rejected call.');
-		        } else {
-		          // accept the incoming connection and start two-way audio
-		          conn.accept();
-		        }
-		      });
-
-		      setClientNameUI(data.identity);
-
-		      var params = {
-			    To: '+13032509782'
-			  };
-
-			  console.log('Calling ' + params.To + '...');
-			  Twilio.Device.connect(params);
-
-		    })
-	    .fail(function () {
-	      log('Could not get a token from server!');
-	    });
+	setupTwilio(user,room){
+		HTTP.call('GET', 'http://20364771.ngrok.io/token', function(error, res) {
+		  var token;
+		  if (error) {
+		    console.log(error);
+		  } else {
+		    token = (JSON.parse(res.content)).token;
+		    Twilio.Device.setup(token);
+		  }
+		});
+		
 
 
 
