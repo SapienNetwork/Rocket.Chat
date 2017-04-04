@@ -91,6 +91,7 @@ Template.createCombinedFlex.events
 		createRoute = if privateGroup then 'createPrivateGroup' else 'createChannel'
 		createRoute = if voiceChannel then 'createVoiceChannel' else 'createChannel'
 		successRoute = if privateGroup then 'group' else 'channel'
+		successRoute = if voiceChannel then 'voice' else 'channel'
 		instance.roomName.set name
 		if not err
 			Meteor.call createRoute, name, instance.selectedUsers.get(), readOnly, (err, result) ->

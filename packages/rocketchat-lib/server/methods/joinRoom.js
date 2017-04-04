@@ -13,7 +13,7 @@ Meteor.methods({
 			throw new Meteor.Error('error-invalid-room', 'Invalid room', { method: 'joinRoom' });
 		}
 
-		if ((room.t !== 'c') || (RocketChat.authz.hasPermission(Meteor.userId(), 'view-c-room') !== true)) {
+		if ((room.t !== 'c' && room.t!== 'v') || (RocketChat.authz.hasPermission(Meteor.userId(), 'view-c-room') !== true)) {
 			throw new Meteor.Error('error-not-allowed', 'Not allowed', { method: 'joinRoom' });
 		}
 
