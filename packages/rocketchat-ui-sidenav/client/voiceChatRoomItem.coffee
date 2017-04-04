@@ -60,6 +60,7 @@ Template.voiceChatRoomItem.events
 			when 'c' then 'Hide_Room_Warning'
 			when 'p' then 'Hide_Group_Warning'
 			when 'd' then 'Hide_Private_Warning'
+			when 'v' then 'Hide_Voice_Warning'
 
 		swal {
 			title: t('Are_you_sure')
@@ -93,6 +94,7 @@ Template.voiceChatRoomItem.events
 			when this.t == 'c' then 'Leave_Room_Warning'
 			when this.t == 'p' then 'Leave_Group_Warning'
 			when this.t == 'd' then 'Leave_Private_Warning'
+			when this.t == 'v' then 'Leave_Voice_Warning'
 		swal {
 			title: t('Are_you_sure')
 			text: t(warnText, name)
