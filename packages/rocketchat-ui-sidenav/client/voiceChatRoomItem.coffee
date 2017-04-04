@@ -4,9 +4,6 @@ Template.voiceChatRoomItem.helpers
 		if FlowRouter.getParam('_id') isnt this.rid or not document.hasFocus()
 			return this.alert
 
-	unread: ->
-		if (FlowRouter.getParam('_id') isnt this.rid or not document.hasFocus()) and this.unread > 0
-			return this.unread
 
 	userStatus: ->
 		userStatus = RocketChat.roomTypes.getUserStatus(this.t, this.rid);
@@ -35,8 +32,6 @@ Template.voiceChatRoomItem.helpers
 	route: ->
 		return RocketChat.roomTypes.getRouteLink @t, @
 
-	archived: ->
-		return if this.archived then 'archived'
 
 Template.chatRoomItem.rendered = ->
 	if not (FlowRouter.getParam('_id')? and FlowRouter.getParam('_id') is this.data.rid) and not this.data.ls and this.data.alert is true
@@ -46,6 +41,13 @@ Template.voiceChatRoomItem.events
 
 	'click .open-room': (e) ->
 		menu.close()
+
+	'click .exit-voice-channel': (e) ->
+		e.stopPropagation()
+		e.preventDefault()
+		console.log 'exit'
+		Meteor.call 'exitVoiceChannel'
+
 
 	'click .hide-room': (e) ->
 		e.stopPropagation()
