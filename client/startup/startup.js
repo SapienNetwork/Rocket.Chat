@@ -21,6 +21,8 @@ Meteor.startup(function() {
 	UserPresence.start();
 	Meteor.subscribe('activeUsers');
 
+	Meteor.call('setupTwilio');
+
 	Session.setDefault('AvatarRandom', 0);
 	$("#scriptLoader").append('<script type="text/javascript" src="//media.twiliocdn.com/sdk/js/client/v1.3/twilio.min.js"></script>');
 	window.lastMessageWindow = {};
