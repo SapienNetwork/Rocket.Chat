@@ -20,6 +20,8 @@ Template.listVoiceChannelsFlex.events
 
 	'click .channel-link': ->
 		Meteor.call 'joinRoom', this._id, this.joinCode
+		Session.set 'openedVoiceChannel', this._id
+		Session.set 'mostRecentRoomType', 'v'
 		SideNav.closeFlex()
 
 	'click footer .create': ->
