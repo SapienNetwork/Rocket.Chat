@@ -7,7 +7,7 @@ Meteor.methods({
 			throw new Meteor.Error('error-invalid-user', 'Invalid user', { method: 'createVoiceChannel' });
 		}
 
-		/*if (!RocketChat.authz.hasPermission(Meteor.userId(), 'create-v')) {
+		if (!RocketChat.authz.hasPermission(Meteor.userId(), 'create-v')) {
 			throw new Meteor.Error('error-not-allowed', 'Not allowed', { method: 'createVoiceChannel' });
 		}//*/
 
