@@ -17,5 +17,5 @@ Package.onUse(function(api) {
 
 	
 
-	api.addFiles('twilio.js', 'client');
+	api.addFiles('twilio.js', 'client', 'server');
 });

@@ -1,7 +1,7 @@
 currentTracker = undefined
 
 @openRoom = (type, name) ->
-	if type is 'v'
+	if type is 'v' or type is 'pv'
 		Session.set 'openedVoiceChannel', null
 		Session.set 'mostRecentRoomType', 'v'
 		Twilio.Device.disconnectAll();
@@ -10,7 +10,7 @@ currentTracker = undefined
 		Session.set 'mostRecentRoomType', type
 
 	Meteor.defer ->
-		if type is 'v'
+		if type is 'v' or type is 'pv'
 			#Twilio.Device.disconnectAll();
 			params = room: name
 			Twilio.Device.connect(params)

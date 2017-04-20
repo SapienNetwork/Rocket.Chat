@@ -136,7 +136,8 @@ Package.onUse(function(api) {
 	api.addFiles('server/methods/createChannel.js', 'server');
 	api.addFiles('server/methods/createVoiceChannel.js', 'server');
 	api.addFiles('server/methods/createPrivateGroup.js', 'server');
-	api.addFiles('server/methods/deleteMessage.js', 'server');
+	api.addFiles('server/methods/createPrivateVoiceChannel.js', 'server');
+	api.addFiles('server/methods/deleteMessage.coffee', 'server');
 	api.addFiles('server/methods/deleteUserOwnAccount.js', 'server');
 	api.addFiles('server/methods/filterBadWords.js', ['server']);
 	api.addFiles('server/methods/filterATAllTag.js', 'server');
@@ -163,6 +164,7 @@ Package.onUse(function(api) {
 	api.addFiles('server/methods/unarchiveRoom.js', 'server');
 	api.addFiles('server/methods/unblockUser.js', 'server');
 	api.addFiles('server/methods/updateMessage.js', 'server');
+	api.addFiles('server/methods/openVoiceChannel.coffee', 'server');
 
 	// SERVER STARTUP
 	api.addFiles('server/startup/settingsOnLoadCdnPrefix.js', 'server');
@@ -187,9 +189,10 @@ Package.onUse(function(api) {
 	api.addFiles('client/lib/Layout.js', 'client');
 
 	// CLIENT METHODS
-	api.addFiles('client/methods/sendMessage.js', 'client');
-	api.addFiles('client/AdminBox.js', 'client');
-	api.addFiles('client/MessageAction.js', 'client');
+	api.addFiles('client/methods/sendMessage.coffee', 'client');
+	api.addFiles('client/AdminBox.coffee', 'client');
+	api.addFiles('client/MessageAction.coffee', 'client');
+	api.addFiles('client/methods/openVoiceChannel.coffee', 'client');
 
 	api.addFiles('client/defaultTabBars.js', 'client');
 	api.addFiles('client/CustomTranslations.js', 'client');

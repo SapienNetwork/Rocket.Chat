@@ -1,6 +1,8 @@
 Meteor.methods({
-	openRoom(rid) {
-		check(rid, String);
+	openRoomByName(name) {
+		check(name, String);
+		foundRoom = RocketChat.models.Rooms.findOneByIdOrName(name)
+		rid = foundRoom._id
 
 		if (!Meteor.userId()) {
 			throw new Meteor.Error('error-invalid-user', 'Invalid user', {

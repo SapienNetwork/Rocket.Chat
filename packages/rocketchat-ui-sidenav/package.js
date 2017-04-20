@@ -39,6 +39,7 @@ Package.onUse(function(api) {
 	api.addFiles('client/voiceChannels.html', 'client')
 	api.addFiles('client/listVoiceChannelsFlex.html', 'client');
 	api.addFiles('client/voiceChatRoomItem.html', 'client');
+	api.addFiles('client/combinedVoice.html', 'client');
 
 
 
@@ -62,6 +63,7 @@ Package.onUse(function(api) {
 	api.addFiles('client/voiceChannels.coffee', 'client');
 	api.addFiles('client/listVoiceChannelsFlex.coffee', 'client');
 	api.addFiles('client/voiceChatRoomItem.coffee', 'client');
+	api.addFiles('client/combinedVoice.coffee', 'client');
 });
 
 Npm.depends({
