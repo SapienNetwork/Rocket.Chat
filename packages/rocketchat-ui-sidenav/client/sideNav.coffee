@@ -31,7 +31,12 @@ Template.sideNav.helpers
 		globalPref = RocketChat.settings.get('UI_Merge_Channels_Groups')
 		mergeChannels = if userPref? then userPref else globalPref
 		if mergeChannels
-			return if @template is 'channels' then 'combined' else @template
+			if @template is 'channels'
+				return 'combined'
+			else if @template is 'voiceChannels'
+				return 'combinedVoice'
+			else
+				return @template
 		else
 			return @template
 

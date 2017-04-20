@@ -88,10 +88,23 @@ Template.createCombinedFlex.events
 		privateGroup = instance.find('#channel-type').checked
 		readOnly = instance.find('#channel-ro').checked
 		voiceChannel = instance.find('#channel-voice').checked
-		createRoute = if privateGroup then 'createPrivateGroup' else 'createChannel'
-		createRoute = if voiceChannel then 'createVoiceChannel' else 'createChannel'
-		successRoute = if privateGroup then 'group' else 'channel'
-		successRoute = if voiceChannel then 'voice' else 'channel'
+		if privateGroup and voiceChannel
+			createRoute = 'createPrivateVoiceChannel'
+			successRoute = 'privateVoice'
+		else if voiceChannel
+			createRoute = 'createVoiceChannel'
+			successRoute = 'voice'
+		else if privateGroup
+			createRoute = 'createPrivateGroup'
+			successRoute = 'group'
+		else
+			createRoute = 'createChannel'
+			successRoute = 'channel'
+
+		#createRoute = if privateGroup then 'createPrivateGroup' else 'createChannel'
+		#createRoute = if voiceChannel then 'createVoiceChannel' else 'createChannel'
+		#successRoute = if privateGroup then 'group' else 'channel'
+		#successRoute = if voiceChannel then 'voice' else 'channel'
 		instance.roomName.set name
 		if not err
 			Meteor.call createRoute, name, instance.selectedUsers.get(), readOnly, (err, result) ->

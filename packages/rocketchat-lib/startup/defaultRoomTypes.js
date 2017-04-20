@@ -141,3 +141,35 @@ RocketChat.roomTypes.add('v', 40, {
 		return !!ChatRoom.findOne({ _id: roomId, t: 'v' });
 	}
 });
+
+RocketChat.roomTypes.add('pv', 50, {
+	template: 'privateVoiceChannels',
+	icon: 'icon-lock',
+	route: {
+		name: 'privateVoice',
+		path: '/privateVoice/:name',
+		action(params) {
+			return openRoom('pv', params.name);
+		}
+	},
+
+	findRoom(identifier) {
+		const query = {
+			t: 'pv',
+			name: identifier
+		};
+		return ChatRoom.findOne(query);
+	},
+
+	roomName(roomData) {
+		return roomData.name;
+	},
+
+	condition() {
+		return RocketChat.authz.hasAtLeastOnePermission(['view-pv-room', 'view-joined-room']);
+	},
+
+	showJoinLink(roomId) {
+		return !!ChatRoom.findOne({ _id: roomId, t: 'pv' });
+	}
+});
