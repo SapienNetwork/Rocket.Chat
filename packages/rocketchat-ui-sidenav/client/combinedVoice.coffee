@@ -16,7 +16,10 @@ Template.combinedVoice.helpers
 
 		return ChatSubscription.find query, { sort: 'name': 1 }
 
+
 Template.combinedVoice.events
 	'click .more-channels': ->
 		SideNav.setFlex "listCombinedFlex"
 		SideNav.openFlex()
+
+
