@@ -1,4 +1,5 @@
 currentTracker = undefined
+@twilioConnection = null
 
 @openRoom = (type, name) ->
 	if type is 'v' or type is 'pv'
@@ -13,7 +14,7 @@ currentTracker = undefined
 		if type is 'v' or type is 'pv'
 			#Twilio.Device.disconnectAll();
 			params = room: name
-			Twilio.Device.connect(params)
+			@twilioConnection = Twilio.Device.connect(params)
 			user = Meteor.user()
 			room = RocketChat.roomTypes.findRoom(type, name, user)
 			Session.set 'openedVoiceChannel', room._id

@@ -32,12 +32,25 @@ Template.voiceChatRoomItem.helpers
 	route: ->
 		return RocketChat.roomTypes.getRouteLink @t, @
 
+	isMuted: ->
+		return (Session.get('muteVoiceChannel')==true)
+
 
 Template.chatRoomItem.rendered = ->
 	if not (FlowRouter.getParam('_id')? and FlowRouter.getParam('_id') is this.data.rid) and not this.data.ls and this.data.alert is true
 		KonchatNotification.newRoom(this.data.rid)
 
 Template.voiceChatRoomItem.events
+
+	'click .mute-microphone': ->
+		Session.set('muteVoiceChannel',true)
+		twilioConnection.mute(true)
+		#console.log(twilioConnection.isMuted())
+
+	'click .un-mute-microphone': ->
+		Session.set('muteVoiceChannel',false)
+		twilioConnection.mute(false)
+		#console.log(twilioConnection.isMuted())
 
 	'click .open-room': (e) ->
 		menu.close()
