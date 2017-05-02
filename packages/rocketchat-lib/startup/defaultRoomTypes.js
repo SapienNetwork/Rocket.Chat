@@ -125,7 +125,7 @@ RocketChat.roomTypes.add('p', 30, {
 
 RocketChat.roomTypes.add('v', 40, {
 	template: 'voiceChannels',
-	icon: 'icon-hash',
+	icon: 'icon-mic',
 	route: {
 		name: 'voice',
 		path: '/voice/:name',

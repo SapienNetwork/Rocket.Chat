@@ -30,12 +30,25 @@ RocketChat.createRoom = function(type, name, owner, members, readOnly, extraData
 	}
 
 	// avoid duplicate names
-	let room = RocketChat.models.Rooms.findOneByName(name);
-	if (room) {
-		if (room.archived) {
-			throw new Meteor.Error('error-archived-duplicate-name', `There's an archived channel with name ${ name }`, { function: 'RocketChat.createRoom', room_name: name });
-		} else {
-			throw new Meteor.Error('error-duplicate-channel-name', `A channel with name '${ name }' exists`, { function: 'RocketChat.createRoom', room_name: name });
+	//let room = RocketChat.models.Rooms.findOneByName(name);
+	let rooms = RocketChat.models.Rooms.findByName(name);
+	console.log(rooms);
+	if (rooms) {
+		for (var room in rooms){
+			if (room.archived) {
+				throw new Meteor.Error('error-archived-duplicate-name', 'There\'s an archived channel with name ' + name, { function: 'RocketChat.createRoom', room_name: name });
+			} else {
+				if (type === room.type){
+					if(type === 'p' || type === 'pv'){
+						// do nothing
+					}else{//don't allow two voice channels or two channels with the same name
+						throw new Meteor.Error('error-duplicate-channel-name', 'A channel with name \'' + name + '\' exists', { function: 'RocketChat.createRoom', room_name: name });
+					}
+				} else {
+
+				}
+				//throw new Meteor.Error('error-duplicate-channel-name', 'A channel with name \'' + name + '\' exists', { function: 'RocketChat.createRoom', room_name: name });
+			}
 		}
 	}
 
