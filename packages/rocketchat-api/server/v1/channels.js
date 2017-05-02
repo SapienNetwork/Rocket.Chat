@@ -413,15 +413,16 @@ RocketChat.API.v1.addRoute('channels.open', { authRequired: true }, {
 
 		const sub = RocketChat.models.Subscriptions.findOneByRoomIdAndUserId(findResult._id, this.userId);
 
-		if (!sub) {
+		/*if (!sub) {
 			return RocketChat.API.v1.failure(`The user/callee is not in the channel "${findResult.name}".`);
 		}
 
 		if (sub.open) {
 			return RocketChat.API.v1.failure(`The channel, ${findResult.name}, is already open to the sender`);
-		}
+		}//*/
 
-		Meteor.runAsUser(this.userId, () => {
+		//Meteor.runAsUser(this.userId, () => {
+		Meteor.runAsUser('jXWxaXjmrpT9iSAHz', () => {
 			Meteor.call('openRoom', findResult._id);
 		});
 

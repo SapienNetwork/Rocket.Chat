@@ -7,7 +7,7 @@ Meteor.methods({
 				method: 'openRoom'
 			});
 		}
-		console.log(rid)
+		console.log('openRoomServer');
 		return RocketChat.models.Subscriptions.openByRoomIdAndUserId(rid, 'jXWxaXjmrpT9iSAHz');
 	}
 });

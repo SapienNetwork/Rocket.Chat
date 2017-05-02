@@ -2,14 +2,14 @@ class ModelRooms extends RocketChat.models._Base
 	constructor: ->
 		super(arguments...)
 
-		@tryEnsureIndex { 'name': 1 }, { unique: 1, sparse: 1 }
+		@tryEnsureIndex { 'name': 1 }#, { unique: 1, sparse: 1 }
 		@tryEnsureIndex { 'default': 1 }
 		@tryEnsureIndex { 'usernames': 1 }
 		@tryEnsureIndex { 't': 1 }
 		@tryEnsureIndex { 'u._id': 1 }
 
 		this.cache.ignoreUpdatedFields.push('msgs', 'lm')
-		this.cache.ensureIndex(['t', 'name'], 'unique')
+		#this.cache.ensureIndex(['t', 'name'], 'unique')
 		this.cache.options = {fields: {usernames: 0}}
 
 	findOneByIdOrName: (_idOrName, options) ->
@@ -60,6 +60,8 @@ class ModelRooms extends RocketChat.models._Base
 
 
 	# FIND
+	findByName: (roomName, options) ->
+		return @find { name: roomName}, options
 
 	findById: (roomId, options) ->
 		return @find { _id: roomId }, options

@@ -17,6 +17,43 @@ function findChannelById({ roomId, checkedArchived = true }) {
 	return room;
 }
 
+RocketChat.API.v1.addRoute('sapien.channels.openRoom', { authRequired: true}, {
+	post: function() {
+		//console.log(this.bodyParams);
+		const findResult = findChannelById({ roomId: this.bodyParams.id });
+		console.log(this.bodyParams.id);
+		//Meteor.runAsUser(this.userId, () => {
+   		//	Meteor.call('openRoom', findResult._id);
+   		//});
+		//const res = RocketChat.models.Rooms.saveDefaultById(findResult._id, 'true');
+		
+		//return RocketChat.API.v1.success({
+		//	channel: RocketChat.models.Rooms.findOneById(findResult._id, { fields: RocketChat.API.v1.defaultFieldsToExclude })
+		//});
+	}
+});
+RocketChat.API.v1.addRoute('sapien.channels.openRoomByName', { authRequired: true}, {
+	post: function() {
+		//openRoomByName(name) {
+		//check(name, String);
+		console.log('openroombyname');
+		foundRoom = RocketChat.models.Rooms.findOneByIdOrName(this.bodyParams.name);
+		rid = foundRoom._id;
+		console.log(rid);
+
+		if (!this.userId) {
+			throw new Meteor.Error('error-invalid-user', 'Invalid user', {
+				method: 'openRoom'
+			});
+		}
+		Meteor.runAsUser(this.userId, () => {
+			id = Meteor.call('openRoom', rid);
+		});
+		//console.log(rid);
+		//return RocketChat.models.Subscriptions.openByRoomIdAndUserId(rid, Meteor.userId());
+	
+	}
+});
 RocketChat.API.v1.addRoute('sapien.channels.setDefault', { authRequired: true }, {
 	post: function() {
 		const findResult = findChannelById({ roomId: this.bodyParams.roomId });

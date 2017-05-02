@@ -1,5 +1,6 @@
 Meteor.methods({
 	openRoom(rid) {
+		console.log('openRoomClient');
 		if (!Meteor.userId()) {
 			return false;
 		}
