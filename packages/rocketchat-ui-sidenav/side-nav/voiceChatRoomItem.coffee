@@ -41,10 +41,15 @@ Template.voiceChatRoomItem.helpers
 Template.chatRoomItem.rendered = ->
 	if not (FlowRouter.getParam('_id')? and FlowRouter.getParam('_id') is this.data.rid) and not this.data.ls and this.data.alert is true
 		KonchatNotification.newRoom(this.data.rid)
+	# sendMessage = (e) ->
+	# 	parent.postMessage(++clicked, '*')
+	# 	console.log('From RC on channel click')
+	# document.querySelector(".open-room").addEventListener('click', sendMessage)
 
-Template.voiceChatRoomItem.events
 
+Template.chatRoomItem.events
 	'click .open-room': (e) ->
+		parent.postMessage('openChat', '*')
 		menu.close()
 
 	'click .hide-room': (e) ->
