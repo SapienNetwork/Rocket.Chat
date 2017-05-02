@@ -10,10 +10,17 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
 	<audio id="chatAudioNotification" preload>
 		<source src="/sounds/notify.mp3" type="audio/mpeg" />
-	</audio>	
+	</audio>
 </head>
 
 <body>
+
+	<script type="text/javascript">
+		console.log('Baaal');
+		window.addEventListener('message', function() {
+			console.log('Message received...');
+		});
+	</script>
 </body>
 
 <template name="main">
