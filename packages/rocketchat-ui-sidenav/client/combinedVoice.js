@@ -27,6 +27,7 @@ Template.combinedVoice.helpers({
 Template.combined.events({
 	'click .more-channels'() {
 		SideNav.setFlex('listCombinedFlex');
+		parent.postMessage('openChat', '*');
 		return SideNav.openFlex();
 	}
 });

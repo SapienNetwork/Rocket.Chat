@@ -67,6 +67,7 @@ Template.chatRoomItem.rendered = function() {
 Template.chatRoomItem.events({
 
 	'click .open-room'() {
+		parent.postMessage('openChat', '*');
 		return menu.close();
 	},
 
