@@ -1,6 +1,6 @@
 Meteor.methods({
 	setupTwilio(user,room){
-		HTTP.call(‘GET’, 'http://7993b0a5.ngrok.io/token', function(error, res) {
+		HTTP.call('GET', 'http://7993b0a5.ngrok.io/token', function(error, res) {
 		  var token;
 		  if (error) {
 		    console.log(error);
