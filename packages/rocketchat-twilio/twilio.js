@@ -1,6 +1,6 @@
 Meteor.methods({
 	setupTwilio(user,room){
-		HTTP.call('GET', 'http://3010d92a.ngrok.io/token', function(error, res) {
+		HTTP.call('GET', 'http://sapien.me/token', {params: { user: user._id }} , function(error, res) {
 		  var token;
 		  if (error) {
 		    console.log(error);
