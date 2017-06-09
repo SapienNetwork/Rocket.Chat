@@ -4,6 +4,8 @@ RocketChat.roomTypes.add(null, 0, {
 	icon: 'icon-star'
 });
 
+
+
 RocketChat.roomTypes.add('c', 10, {
 	template: 'channels',
 	icon: 'icon-hash',
@@ -118,5 +120,37 @@ RocketChat.roomTypes.add('p', 30, {
 
 	condition() {
 		return RocketChat.authz.hasAllPermission('view-p-room');
+	}
+});
+
+RocketChat.roomTypes.add('v', 40, {
+	template: 'voiceChannels',
+	icon: 'icon-hash',
+	route: {
+		name: 'voice',
+		path: '/voice/:name',
+		action(params) {
+			return openRoom('v', params.name);
+		}
+	},
+
+	findRoom(identifier) {
+		const query = {
+			t: 'v',
+			name: identifier
+		};
+		return ChatRoom.findOne(query);
+	},
+
+	roomName(roomData) {
+		return roomData.name;
+	},
+
+	condition() {
+		return RocketChat.authz.hasAtLeastOnePermission(['view-v-room', 'view-joined-room']);
+	},
+
+	showJoinLink(roomId) {
+		return !!ChatRoom.findOne({ _id: roomId, t: 'v' });
 	}
 });
