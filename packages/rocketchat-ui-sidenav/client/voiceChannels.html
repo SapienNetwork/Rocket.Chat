@@ -1,0 +1,13 @@
+<template name="voiceChannels">
+	<h3 class="add-room {{isActive}}">
+		Voice Channels <span class="room-count-small">({{rooms.count}})</span>
+	</h3>
+	<ul>
+		{{#each rooms}}
+			{{> voiceChatRoomItem}}
+		{{else}}
+			<p class="empty">You aren't part of any voice channels yet.</p>
+		{{/each}}
+	</ul>
+	<button class="more more-channels background-transparent-darker-hover">More voice channels...</button>
+</template>

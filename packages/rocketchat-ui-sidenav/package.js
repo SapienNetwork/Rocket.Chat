@@ -36,6 +36,10 @@ Package.onUse(function(api) {
 	api.addFiles('client/toolbar.html', 'client');
 	api.addFiles('client/unreadRooms.html', 'client');
 	api.addFiles('client/userStatus.html', 'client');
+	api.addFiles('client/combinedVoice.html', 'client');
+	api.addFiles('client/listVoiceChannelsFlex.html', 'client');
+	api.addFiles('client/voiceChannels.html', 'client');
+	api.addFiles('client/voiceChatRoomItem.html', 'client');
 
 	api.addFiles('client/accountBox.js', 'client');
 	api.addFiles('client/combined.js', 'client');
@@ -53,4 +57,8 @@ Package.onUse(function(api) {
 	api.addFiles('client/starredRooms.js', 'client');
 	api.addFiles('client/toolbar.js', 'client');
 	api.addFiles('client/unreadRooms.js', 'client');
+	api.addFiles('client/combinedVoice.js', 'client');
+	api.addFiles('client/listVoiceChannelsFlex.js', 'client');
+	api.addFiles('client/voiceChannels.js', 'client');
+	api.addFiles('client/voiceChatRoomItem.js', 'client');
 });
