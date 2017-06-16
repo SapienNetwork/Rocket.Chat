@@ -1,4 +1,73 @@
 Meteor.startup(function() {
+
+	RocketChat.roomTypes.setPublish('pv', function(identifier) {
+		const options = {
+			fields: {
+				name: 1,
+				t: 1,
+				cl: 1,
+				usernames: 1,
+				topic: 1,
+				muted: 1,
+				ro: 1,
+				reactWhenReadOnly: 1,
+				jitsiTimeout: 1,
+				description: 1,
+				sysMes: 1,
+				joinCodeRequired: 1
+			}
+		};
+
+		if (RocketChat.authz.hasPermission(this.userId, 'view-join-code')) {
+			options.fields.joinCode = 1;
+		}
+
+		if (RocketChat.authz.hasPermission(this.userId, 'view-pv-room')) {
+			return RocketChat.models.Rooms.findByTypeAndName('pv', identifier, options);
+		} else if (RocketChat.authz.hasPermission(this.userId, 'view-joined-room')) {
+			const roomId = RocketChat.models.Subscriptions.findByTypeNameAndUserId('pv', identifier, this.userId).fetch();
+			if (roomId.length > 0) {
+				return RocketChat.models.Rooms.findById(roomId[0].rid, options);
+			}
+		}//*/
+
+		return this.ready();
+	});
+
+	RocketChat.roomTypes.setPublish('v', function(identifier) {
+		const options = {
+			fields: {
+				name: 1,
+				t: 1,
+				cl: 1,
+				usernames: 1,
+				topic: 1,
+				muted: 1,
+				ro: 1,
+				reactWhenReadOnly: 1,
+				jitsiTimeout: 1,
+				description: 1,
+				sysMes: 1,
+				joinCodeRequired: 1
+			}
+		};
+
+		if (RocketChat.authz.hasPermission(this.userId, 'view-join-code')) {
+			options.fields.joinCode = 1;
+		}
+
+		if (RocketChat.authz.hasPermission(this.userId, 'view-v-room')) {
+			return RocketChat.models.Rooms.findByTypeAndName('v', identifier, options);
+		} else if (RocketChat.authz.hasPermission(this.userId, 'view-joined-room')) {
+			const roomId = RocketChat.models.Subscriptions.findByTypeNameAndUserId('v', identifier, this.userId).fetch();
+			if (roomId.length > 0) {
+				return RocketChat.models.Rooms.findById(roomId[0].rid, options);
+			}
+		}//*/
+
+		return this.ready();
+	});
+	
 	RocketChat.roomTypes.setPublish('c', function(identifier) {
 		const options = {
 			fields: {
@@ -90,4 +159,6 @@ Meteor.startup(function() {
 
 		return this.ready();
 	});
+
+	
 });

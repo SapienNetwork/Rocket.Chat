@@ -1,4 +1,4 @@
-Template.combined.helpers({
+Template.combinedVoice.helpers({
 	isActive() {
 		if (ChatSubscription.findOne({ t: { $in: ['v', 'pv']}, f: { $ne: true }, open: true, rid: Session.get('openedVoiceChannel') }, { fields: { _id: 1 } })) {
 			return 'active';

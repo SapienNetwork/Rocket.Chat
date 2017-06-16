@@ -11,12 +11,13 @@
 			<div class="rooms-list" aria-label="{{_ "Channels"}}" role="region">
 				<div class="wrapper">
 					{{> unreadRooms }}
-
+					
 					{{#each roomType}}
 						{{#if canShowRoomType}}
 							{{> Template.dynamic template=templateName }}
 						{{/if}}
 					{{/each}}
+					
 
 					{{#if canViewHistory}}
 						<h3 class="history-div">
@@ -41,8 +42,11 @@
 				</div>
 			</div>
 		{{/if}}
-		<footer class="footer">
+		<!--<footer class="footer">
 			{{{footer}}}
+		</footer>-->
+		<footer class="footer" style="text-align:center; right:30px;">
+			<img src='/sapien_transparent.png' width='160px'>
 		</footer>
 	</aside>
 </template>

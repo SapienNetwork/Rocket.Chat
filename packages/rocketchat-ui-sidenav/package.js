@@ -61,4 +61,10 @@ Package.onUse(function(api) {
 	api.addFiles('client/listVoiceChannelsFlex.js', 'client');
 	api.addFiles('client/voiceChannels.js', 'client');
 	api.addFiles('client/voiceChatRoomItem.js', 'client');
+
+});
+
+Npm.depends({
+	'less': 'https://github.com/meteor/less.js/tarball/8130849eb3d7f0ecf0ca8d0af7c4207b0442e3f6',
+	'less-plugin-autoprefix': '1.4.2'
 });

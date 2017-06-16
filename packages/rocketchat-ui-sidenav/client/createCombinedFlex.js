@@ -57,8 +57,8 @@ Template.createCombinedFlex.events({
 		return event.currentTarget.focus();
 	},
 
-	'click .remove-room-member'() {
-		const self = this;
+	'click .remove-room-member'(e, instance) {
+		let self = this;
 
 		let users = Template.instance().selectedUsers.get();
 		users = _.reject(Template.instance().selectedUsers.get(), _id => _id === self.valueOf());
@@ -84,7 +84,7 @@ Template.createCombinedFlex.events({
 		return SideNav.leaveArrow();
 	},
 
-	'keydown input[type="text"]'() {
+	'keydown input[type="text"]'(e, instance) {
 		return Template.instance().error.set([]);
 	},
 
@@ -101,16 +101,35 @@ Template.createCombinedFlex.events({
 	},
 
 	'click .save-channel'(e, instance) {
-		const err = SideNav.validate();
-		const name = instance.find('#channel-name').value.toLowerCase().trim().replace(/</g, '&lt;').replace(/>/g, '&gt;');
-		const privateGroup = instance.find('#channel-type').checked;
-		const readOnly = instance.find('#channel-ro').checked;
-		const createRoute = privateGroup ? 'createPrivateGroup' : 'createChannel';
-		const successRoute = privateGroup ? 'group' : 'channel';
+		let createRoute, successRoute;
+		let err = SideNav.validate();
+		let name = instance.find('#channel-name').value.toLowerCase().trim();
+		let privateGroup = instance.find('#channel-type').checked;
+		let readOnly = instance.find('#channel-ro').checked;
+		let voiceChannel = instance.find('#channel-voice').checked;
+		if (privateGroup && voiceChannel) {
+			createRoute = 'createPrivateVoiceChannel';
+			successRoute = 'privateVoice';
+		} else if (voiceChannel) {
+			createRoute = 'createVoiceChannel';
+			successRoute = 'voice';
+		} else if (privateGroup) {
+			createRoute = 'createPrivateGroup';
+			successRoute = 'group';
+		} else {
+			createRoute = 'createChannel';
+			successRoute = 'channel';
+		}
+
+		//createRoute = if privateGroup then 'createPrivateGroup' else 'createChannel'
+		//createRoute = if voiceChannel then 'createVoiceChannel' else 'createChannel'
+		//successRoute = if privateGroup then 'group' else 'channel'
+		//successRoute = if voiceChannel then 'voice' else 'channel'
 		instance.roomName.set(name);
 		if (!err) {
 			return Meteor.call(createRoute, name, instance.selectedUsers.get(), readOnly, function(err, result) {
 				if (err) {
+					console.log(err);
 					if (err.error === 'error-invalid-name') {
 						instance.error.set({ invalid: true });
 						return;
@@ -128,21 +147,23 @@ Template.createCombinedFlex.events({
 				}
 
 				SideNav.closeFlex(() => instance.clearForm());
-
-				if (!privateGroup) {
+				if (voiceChannel) {
+					RocketChat.callbacks.run('afterCreateVoiceChannel');
+				} else if (!privateGroup) {
 					RocketChat.callbacks.run('aftercreateCombined', { _id: result.rid, name });
 				}
 
 				return FlowRouter.go(successRoute, { name }, FlowRouter.current().queryParams);
 			});
 		} else {
+			console.log(err);
 			return instance.error.set({ fields: err });
 		}
 	}
 });
 
 Template.createCombinedFlex.onCreated(function() {
-	const instance = this;
+	let instance = this;
 	instance.selectedUsers = new ReactiveVar([]);
 	instance.selectedUserNames = {};
 	instance.error = new ReactiveVar([]);

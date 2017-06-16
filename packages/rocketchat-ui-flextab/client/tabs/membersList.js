@@ -6,7 +6,7 @@ Template.membersList.helpers({
 	},
 
 	isGroupChat() {
-		return ['c', 'p'].includes(ChatRoom.findOne(this.rid, { reactive: false }).t);
+		return ['c', 'p', 'v', 'pv'].includes(ChatRoom.findOne(this.rid, { reactive: false }).t);
 	},
 
 	isDirectChat() {
@@ -89,6 +89,9 @@ Template.membersList.helpers({
 			switch (roomData.t) {
 				case 'p': return RocketChat.authz.hasAtLeastOnePermission(['add-user-to-any-p-room', 'add-user-to-joined-room'], this._id);
 				case 'c': return RocketChat.authz.hasAtLeastOnePermission(['add-user-to-any-c-room', 'add-user-to-joined-room'], this._id);
+				case 'v': return RocketChat.authz.hasAtLeastOnePermission(['add-user-to-any-v-room', 'add-user-to-joined-room'], this._id);
+				case 'pv': return RocketChat.authz.hasAtLeastOnePermission(['add-user-to-any-pv-room', 'add-user-to-joined-room'], this._id);
+
 				default: return false;
 			}
 		})();

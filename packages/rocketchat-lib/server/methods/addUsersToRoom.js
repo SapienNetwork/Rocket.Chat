@@ -34,6 +34,10 @@ Meteor.methods({
 			canAddUser = true;
 		} else if (room.t === 'p' && RocketChat.authz.hasPermission(userId, 'add-user-to-any-p-room')) {
 			canAddUser = true;
+		} else if (room.t === 'v' && RocketChat.authz.hasPermission(userId,	'add-user-to-any-v-room')) {
+			canAddUser = true;
+		} else if (room.t === 'pv' && RocketChat.authz.hasPermission(userId, 'add-user-to-any-pv-room')) {
+			canAddUser = true;
 		}
 
 		// Adding wasn't allowed

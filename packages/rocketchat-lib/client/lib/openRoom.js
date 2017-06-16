@@ -2,7 +2,14 @@
 currentTracker = undefined;
 
 function openRoom(type, name) {
-	Session.set('openedRoom', null);
+	if ((type === 'v') || (type === 'pv')) {
+		Session.set('openedVoiceChannel', null);
+		Session.set('mostRecentRoomType', 'v');
+		Twilio.Device.disconnectAll();
+	} else {
+		Session.set('openedRoom', null);
+		Session.set('mostRecentRoomType', type);
+	}
 
 	return Meteor.defer(() =>
 		currentTracker = Tracker.autorun(function(c) {
@@ -16,10 +23,22 @@ function openRoom(type, name) {
 				BlazeLayout.render('main', { modal: RocketChat.Layout.isEmbedded(), center: 'loading' });
 				return;
 			}
+
 			if (currentTracker) {
 				currentTracker = undefined;
 			}
 			c.stop();
+
+			if ((type === 'v') || (type === 'pv')) {
+				//Twilio.Device.disconnectAll();
+				let params = {room: name};
+				this.twilioConnection = Twilio.Device.connect(params);
+				let user = Meteor.user();
+				let room = RocketChat.roomTypes.findRoom(type, name, user);
+				Session.set('openedVoiceChannel', room._id);
+			}
+			else{
+			
 
 			const room = RocketChat.roomTypes.findRoom(type, name, user);
 			if (room == null) {
@@ -91,7 +110,9 @@ function openRoom(type, name) {
 			}
 
 			return RocketChat.callbacks.run('enter-room', sub);
+			}
 		})
+
 	);
 }
 export { openRoom };

@@ -25,6 +25,13 @@
 					<label class="color-tertiary-font-color" for="channel-ro"></label>
 				</div>
 			</div>
+			<div class="input-line toggle">
+				<label for="channel-ro">Voice Channel</label>
+				<div class="input checkbox toggle">
+					<input type="checkbox" id="channel-voice">
+					<label class="color-tertiary-font-color" for="channel-voice"></label>
+				</div>
+			</div>
 			<div class="input-line no-icon">
 				<label class="color-tertiary-font-color" for="channel-members">{{_ "Select_users"}}</label>
 				{{> inputAutocomplete settings=autocompleteSettings id="channel-members" class="search" placeholder=(_ "Search_by_username") autocomplete="off"}}

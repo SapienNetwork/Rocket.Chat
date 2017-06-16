@@ -137,6 +137,8 @@ Package.onUse(function(api) {
 	api.addFiles('server/methods/createToken.js', 'server');
 	api.addFiles('server/methods/createPrivateGroup.js', 'server');
 	api.addFiles('server/methods/deleteMessage.js', 'server');
+	api.addFiles('server/methods/createVoiceChannel.js', 'server');
+	api.addFiles('server/methods/createPrivateVoiceChannel.js', 'server');
 	api.addFiles('server/methods/deleteUserOwnAccount.js', 'server');
 	api.addFiles('server/methods/filterBadWords.js', ['server']);
 	api.addFiles('server/methods/filterATAllTag.js', 'server');
@@ -163,6 +165,7 @@ Package.onUse(function(api) {
 	api.addFiles('server/methods/unarchiveRoom.js', 'server');
 	api.addFiles('server/methods/unblockUser.js', 'server');
 	api.addFiles('server/methods/updateMessage.js', 'server');
+	api.addFiles('server/methods/openVoiceChannel.js', 'server');
 
 	// SERVER STARTUP
 	api.addFiles('server/startup/settingsOnLoadCdnPrefix.js', 'server');
