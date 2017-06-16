@@ -16,7 +16,8 @@ RocketChat.callbacks.add('beforeSaveMessage', (msg) => {
 							msg.attachments = msg.attachments || [];
 							msg.attachments.push({
 								'text' : jumpToMessage.msg,
-								'author_name' : jumpToMessage.u.username,
+								'translations': jumpToMessage.translations,
+								'author_name' : jumpToMessage.alias || jumpToMessage.u.username,
 								'author_icon' : getAvatarUrlFromUsername(jumpToMessage.u.username),
 								'message_link' : item.url,
 								'attachments' : jumpToMessage.attachments || [],

@@ -15,7 +15,7 @@ RocketChat.createRoom = function(type, name, owner, members, readOnly, extraData
 
 	let nameValidation;
 	try {
-		nameValidation = new RegExp('^' + RocketChat.settings.get('UTF8_Names_Validation') + '$');
+		nameValidation = new RegExp(`^${ RocketChat.settings.get('UTF8_Names_Validation') }$`);
 	} catch (error) {
 		nameValidation = new RegExp('^[0-9a-zA-Z-_.]+$');
 	}
@@ -29,7 +29,7 @@ RocketChat.createRoom = function(type, name, owner, members, readOnly, extraData
 		members.push(owner.username);
 	}
 
-	// avoid duplicate names
+
 	//let room = RocketChat.models.Rooms.findOneByName(name);
 	let rooms = RocketChat.models.Rooms.findByName(name);
 	console.log(rooms);
@@ -55,7 +55,7 @@ RocketChat.createRoom = function(type, name, owner, members, readOnly, extraData
 	if (type === 'c') {
 		RocketChat.callbacks.run('beforeCreateChannel', owner, {
 			t: 'c',
-			name: name,
+			name,
 			ts: now,
 			ro: readOnly === true,
 			sysMes: readOnly !== true,

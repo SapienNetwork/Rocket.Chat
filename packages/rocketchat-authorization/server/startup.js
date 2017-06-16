@@ -11,6 +11,8 @@ Meteor.startup(function() {
 		{ _id: 'add-user-to-joined-room',       roles : ['admin', 'owner', 'moderator'] },
 		{ _id: 'add-user-to-any-c-room',        roles : ['admin'] },
 		{ _id: 'add-user-to-any-p-room',        roles : [] },
+		{ _id: 'add-user-to-any-v-room',		roles : ['admin', 'owner', 'moderator'] },
+		{ _id: 'add-user-to-any-pv-room',		roles : [] },
 		{ _id: 'archive-room',                  roles : ['admin', 'owner'] },
 		{ _id: 'assign-admin-role',             roles : ['admin'] },
 		{ _id: 'ban-user',                      roles : ['admin', 'owner', 'moderator'] },
@@ -36,6 +38,7 @@ Meteor.startup(function() {
 		{ _id: 'edit-other-user-password',      roles : ['admin'] },
 		{ _id: 'edit-privileged-setting',       roles : ['admin'] },
 		{ _id: 'edit-room',                     roles : ['admin', 'owner', 'moderator'] },
+		{ _id: 'join-without-join-code',        roles : ['admin', 'bot'] },
 		{ _id: 'manage-assets',                 roles : ['admin'] },
 		{ _id: 'manage-emoji',                  roles : ['admin'] },
 		{ _id: 'manage-integrations',           roles : ['admin'] },
@@ -49,21 +52,23 @@ Meteor.startup(function() {
 		{ _id: 'set-moderator',                 roles : ['admin', 'owner'] },
 		{ _id: 'set-owner',                     roles : ['admin', 'owner'] },
 		{ _id: 'unarchive-room',                roles : ['admin'] },
-		{ _id: 'view-c-room',                   roles : ['admin', 'user', 'bot'] },
+		{ _id: 'view-c-room',                   roles : ['admin', 'user', 'bot', 'anonymous'] },
+		{ _id: 'user-generate-access-token',    roles : ['admin'] },
 		{ _id: 'view-d-room',                   roles : ['admin', 'user', 'bot'] },
 		{ _id: 'view-v-room',					roles : ['admin', 'user', 'bot'] },
 		{ _id: 'view-pv-room',					roles : ['admin', 'user', 'bot'] },
 		{ _id: 'view-full-other-user-info',     roles : ['admin'] },
-		{ _id: 'view-history',                  roles : ['admin', 'user'] },
-		{ _id: 'view-joined-room',              roles : ['guest', 'bot'] },
+		{ _id: 'view-history',                  roles : ['admin', 'user', 'anonymous'] },
+		{ _id: 'view-joined-room',              roles : ['guest', 'bot', 'anonymous'] },
 		{ _id: 'view-join-code',                roles : ['admin'] },
 		{ _id: 'view-logs',                     roles : ['admin'] },
 		{ _id: 'view-other-user-channels',      roles : ['admin'] },
-		{ _id: 'view-p-room',                   roles : ['admin', 'user'] },
+		{ _id: 'view-p-room',                   roles : ['admin', 'user', 'anonymous'] },
 		{ _id: 'view-privileged-setting',       roles : ['admin'] },
 		{ _id: 'view-room-administration',      roles : ['admin'] },
 		{ _id: 'view-statistics',               roles : ['admin'] },
 		{ _id: 'view-user-administration',      roles : ['admin'] },
+		{ _id: 'preview-c-room',                roles : ['admin', 'user', 'anonymous'] },
 		{ _id: 'preview-c-room',                roles : ['admin', 'user'] },
 		{ _id: 'preview-v-room',				roles : ['admin', 'user'] }
 	];
@@ -80,7 +85,8 @@ Meteor.startup(function() {
 		{ name: 'owner',     scope: 'Subscriptions', description: 'Owner' },
 		{ name: 'user',      scope: 'Users',         description: '' },
 		{ name: 'bot',       scope: 'Users',         description: '' },
-		{ name: 'guest',     scope: 'Users',         description: '' }
+		{ name: 'guest',     scope: 'Users',         description: '' },
+		{ name: 'anonymous', scope: 'Users',         description: '' }
 	];
 
 	for (const role of defaultRoles) {

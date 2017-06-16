@@ -1,5 +1,4 @@
 /* globals openRoom */
-
 RocketChat.roomTypes.add(null, 0, {
 	template: 'starredRooms',
 	icon: 'icon-star'
@@ -31,7 +30,7 @@ RocketChat.roomTypes.add('c', 10, {
 	},
 
 	condition() {
-		return RocketChat.authz.hasAtLeastOnePermission(['view-c-room', 'view-joined-room']);
+		return RocketChat.authz.hasAtLeastOnePermission(['view-c-room', 'view-joined-room']) || RocketChat.settings.get('Accounts_AllowAnonymousRead') === true;
 	},
 
 	showJoinLink(roomId) {
@@ -66,8 +65,22 @@ RocketChat.roomTypes.add('d', 20, {
 	},
 
 	roomName(roomData) {
-		const room = ChatSubscription.findOne({ rid: roomData._id }, { fields: { name: 1 } });
-		return room && room.name;
+		const subscription = ChatSubscription.findOne({ rid: roomData._id }, { fields: { name: 1, fname: 1 } });
+		if (!subscription) {
+			return '';
+		}
+		if (RocketChat.settings.get('UI_Use_Real_Name') && subscription.fname) {
+			return subscription.fname;
+		}
+
+		return subscription.name;
+	},
+
+	secondaryRoomName(roomData) {
+		if (RocketChat.settings.get('UI_Use_Real_Name')) {
+			const subscription = ChatSubscription.findOne({ rid: roomData._id }, { fields: { name: 1 } });
+			return subscription && subscription.name;
+		}
 	},
 
 	condition() {
@@ -78,7 +91,7 @@ RocketChat.roomTypes.add('d', 20, {
 		const subscription = RocketChat.models.Subscriptions.findOne({rid: roomId});
 		if (subscription == null) { return; }
 
-		return Session.get(`user_${subscription.name}_status`);
+		return Session.get(`user_${ subscription.name }_status`);
 	}
 });
 

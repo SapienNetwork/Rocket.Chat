@@ -46,6 +46,7 @@ Meteor.startup(function() {
 		return RocketChat.settings.get('Language') || defaultAppLanguage();
 	};
 
+	const availableLanguages = TAPi18n.getLanguages();
 	const loadedLanguages = [];
 
 	window.setLanguage = function(language) {
@@ -65,13 +66,16 @@ Meteor.startup(function() {
 			$('html').removeClass('rtl');
 		}
 
-		language = language.split('-').shift();
+		if (!availableLanguages[language]) {
+			language = language.split('-').shift();
+		}
+
 		TAPi18n.setLanguage(language);
 
 		language = language.toLowerCase();
 		if (language !== 'en') {
 			Meteor.call('loadLocale', language, (err, localeFn) => {
-				Function(localeFn).call({moment: moment});
+				Function(localeFn).call({moment});
 				moment.locale(language);
 			});
 		}
