@@ -129,8 +129,7 @@ Template.createCombinedFlex.events({
 		if (!err) {
 			return Meteor.call(createRoute, name, instance.selectedUsers.get(), readOnly, function(err, result) {
 				if (err) {
-					console.log(err);
-					if (err.error === 'error-invalid-name') {
+					if (err.error === 'error-invalid-room-name') {
 						instance.error.set({ invalid: true });
 						return;
 					}
@@ -147,13 +146,12 @@ Template.createCombinedFlex.events({
 				}
 
 				SideNav.closeFlex(() => instance.clearForm());
-				if (voiceChannel) {
-					RocketChat.callbacks.run('afterCreateVoiceChannel');
-				} else if (!privateGroup) {
-					RocketChat.callbacks.run('aftercreateCombined', { _id: result.rid, name });
+
+				if (!privateGroup) {
+					RocketChat.callbacks.run('aftercreateCombined', { _id: result.rid, name: result.name });
 				}
 
-				return FlowRouter.go(successRoute, { name }, FlowRouter.current().queryParams);
+				return FlowRouter.go(successRoute, { name: result.name }, FlowRouter.current().queryParams);
 			});
 		} else {
 			console.log(err);
