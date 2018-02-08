@@ -233,6 +233,8 @@ Template.toolbar.events({
 	'click [role="search"] button, touchend [role="search"] button'(e) {
 		if (RocketChat.authz.hasAtLeastOnePermission(['create-c', 'create-p'])) {
 			// TODO: resolve this name menu/sidebar/sidebav/flex...
+			window.simplePostMessage('open_full_page_chat','*')
+
 			menu.close();
 			FlowRouter.go('create-channel');
 		} else {

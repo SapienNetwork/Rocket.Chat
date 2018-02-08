@@ -74,6 +74,7 @@ Template.sidebarItem.onCreated(function() {
 
 Template.sidebarItem.events({
 	'click [data-id], click .sidebar-item__link'() {
+		window.simplePostMessage('open_full_page_chat','*')
 		return menu.close();
 	},
 	'click .sidebar-item__menu'(e) {

@@ -2,6 +2,9 @@ import _ from 'underscore';
 
 Meteor.startup(function() {
 	Meteor.defer(function() {
+
+
+
 		if (!RocketChat.models.Rooms.findOneById('GENERAL')) {
 			RocketChat.models.Rooms.createWithIdTypeAndName('GENERAL', 'c', 'general', {
 				'default': true
