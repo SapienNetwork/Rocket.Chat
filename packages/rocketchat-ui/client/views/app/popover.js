@@ -25,6 +25,9 @@ this.popover = {
 Template.popover.helpers({
 	hasAction() {
 		return !!this.action;
+	},
+	notLogout(item){
+		return item.name != 'Logout'
 	}
 });
 
@@ -177,14 +180,15 @@ Template.popover.events({
 				SideNav.setFlex('accountFlex');
 				SideNav.openFlex();
 				FlowRouter.go('account');
+				window.simplePostMessage('open_full_page_chat','*');
 				break;
 			case 'logout':
-				const user = Meteor.user();
+				/*const user = Meteor.user();
 				Meteor.logout(() => {
 					RocketChat.callbacks.run('afterLogoutCleanUp', user);
 					Meteor.call('logoutCleanUp', user);
 					FlowRouter.go('home');
-				});
+				});//*/
 				break;
 			case 'administration':
 				SideNav.setFlex('adminFlex');
