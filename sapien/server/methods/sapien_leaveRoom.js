@@ -6,16 +6,20 @@ Meteor.methods({
     this.unblock();
     user = RocketChat.models.Users.findOneByUsername(username);
     room = RocketChat.models.Rooms.findOneById(rid);
+
     if (room.t === 'd') {
       throw new Meteor.Error('error-not-allowed', 'Not allowed', {
         method: 'leaveRoom'
       });
     }
-    if (__indexOf.call((room != null ? room.usernames : void 0) || [], username) < 0) {
+   
+    if ((room != null ? room.usernames : []).indexOf(username) < 0 ){
       throw new Meteor.Error('error-user-not-in-room', 'You are not in this room', {
         method: 'leaveRoom'
       });
     }
+
+
     if (RocketChat.authz.hasRole(user._id, 'owner', room._id)) {
       numOwners = RocketChat.authz.getUsersInRole('owner', room._id).fetch().length;
       if (numOwners === 1) {

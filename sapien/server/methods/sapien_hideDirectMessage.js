@@ -31,7 +31,11 @@ Meteor.methods({
       });
     }
     rid = [me._id, to._id].sort().join('');
-    return RocketChat.models.Subscriptions.hideByRoomIdAndUserId(rid, me._id);
+    //return RocketChat.models.Subscriptions.hideByRoomIdAndUserId(rid, me._id);
+    RocketChat.sapien_removeUserFromRoom(rid, username1)
+    RocketChat.sapien_removeUserFromRoom(rid, username2)
+    return true
+
   }
 });
 

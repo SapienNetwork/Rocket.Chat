@@ -1,16 +1,19 @@
 Meteor.methods({
-	sapien_createChannel(name, members, readOnly = false, customFields = {}) {
+	sapien_createChannel(name, usernames, readOnly = false, customFields = {}) {
 		check(name, String);
-		//check(members, Match.Optional([String]));
-
-		if (!Meteor.userId()) {
-			throw new Meteor.Error('error-invalid-user', 'Invalid user', { method: 'createChannel' });
+	
+		check(usernames, Match.Optional([String]));
+		if(usernames.length > 0){
+			owner = RocketChat.models.Users.findOneByUsername(usernames[0]);
+		} else {
+			owner = RocketChat.models.Users.findOneByUsername('ankit.bhatia');
 		}
-
-		if (!RocketChat.authz.hasPermission(Meteor.userId(), 'create-c')) {
+		if (!RocketChat.authz.hasPermission(owner._id, 'create-c')) {
 			throw new Meteor.Error('error-not-allowed', 'Not allowed', { method: 'createChannel' });
 		}
 
-		return RocketChat.createRoom('c', name, Meteor.user() && Meteor.user().username, members, readOnly, {customFields});
+		return RocketChat.createRoom('c', name, owner.username, usernames, readOnly, {
+  			customFields: customFields
+		});
 	}
 });

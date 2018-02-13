@@ -89,9 +89,17 @@ RocketChat.API.v1.addRoute('sapien.channels.create', { authRequired: true }, {
 		Meteor.runAsUser(this.userId, () => {
 			id = Meteor.call('sapien_createChannel', this.bodyParams.name, this.bodyParams.members ? this.bodyParams.members : [], readOnly, this.bodyParams.customFields);
 		});
-
 		return RocketChat.API.v1.success({
 			channel: RocketChat.models.Rooms.findOneById(id.rid, { fields: RocketChat.API.v1.defaultFieldsToExclude })
 		});
 	}
 });
+
+
+
+
+
+
+
+
+
