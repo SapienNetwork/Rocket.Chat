@@ -19,7 +19,7 @@ Meteor.methods({
       });
     }
 
-
+    /*
     if (RocketChat.authz.hasRole(user._id, 'owner', room._id)) {
       numOwners = RocketChat.authz.getUsersInRole('owner', room._id).fetch().length;
       if (numOwners === 1) {
@@ -27,7 +27,7 @@ Meteor.methods({
           method: 'leaveRoom'
         });
       }
-    }
+    }//*/
     return RocketChat.sapien_removeUserFromRoom(rid, username);
   }
 });
