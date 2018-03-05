@@ -175,7 +175,6 @@ rocketchat:issuelinks@0.0.1
 rocketchat:katex@0.0.1
 rocketchat:ldap@0.0.1
 rocketchat:lib@0.0.1
-rocketchat:livechat@0.0.1
 rocketchat:livestream@0.0.5
 rocketchat:logger@0.0.1
 rocketchat:login-token@1.0.0
@@ -218,7 +217,6 @@ rocketchat:slashcommands-topic@0.0.1
 rocketchat:slashcommands-unarchive@0.0.1
 rocketchat:slider@0.0.1
 rocketchat:smarsh-connector@0.0.1
-rocketchat:sms@0.0.1
 rocketchat:spotify@0.0.1
 rocketchat:statistics@0.0.1
 rocketchat:streamer@0.6.1
