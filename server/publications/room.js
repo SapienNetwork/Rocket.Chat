@@ -13,6 +13,7 @@ const fields = {
 	muted: 1,
 	_updatedAt: 1,
 	archived: 1,
+	serverId: 1,
 	jitsiTimeout: 1,
 	description: 1,
 	default: 1,
@@ -33,15 +34,14 @@ const fields = {
 	reactWhenReadOnly: 1,
 	sentiment: 1,
 	tokenpass: 1,
-	streamingOptions: 1,	
-
+	streamingOptions: 1
 };
 
 const roomMap = (record) => {
 	if (record._room) {
 		return _.pick(record._room, ...Object.keys(fields));
 	}
-	console.log('Empty Room for Subscription', record);
+	// console.log('Empty Room for Subscription', record);
 	return {};
 };
 
@@ -57,22 +57,23 @@ Meteor.methods({
 		}
 
 		this.unblock();
-
+		const user = Meteor.user();
 		options = {
 			fields
 		};
 
 		if (updatedAt instanceof Date) {
 			return {
-				update: RocketChat.models.Rooms.findBySubscriptionUserIdUpdatedAfter(Meteor.userId(), updatedAt, options).fetch(),
+				update: RocketChat.models.Rooms.findBySubscriptionUserIdServerIdsUpdatedAfter(Meteor.userId(), user.servers, updatedAt, options).fetch(),
 				remove: RocketChat.models.Rooms.trashFindDeletedAfter(updatedAt, {}, {fields: {_id: 1, _deletedAt: 1}}).fetch()
 			};
 		}
 
-		return RocketChat.models.Rooms.findBySubscriptionUserId(Meteor.userId(), options).fetch();
+		return RocketChat.models.Rooms.findBySubscriptionUserIdServerIds(Meteor.userId(), user.servers, options).fetch();
 	},
 
-	getRoomByTypeAndName(type, name) {
+	getRoomByTypeAndName(type, name, serverId) {
+
 		if (!Meteor.userId() && RocketChat.settings.get('Accounts_AllowAnonymousRead') === false) {
 			throw new Meteor.Error('error-invalid-user', 'Invalid user', { method: 'getRoomByTypeAndName' });
 		}
@@ -84,7 +85,7 @@ Meteor.methods({
 		if (roomFind) {
 			room = roomFind.call(this, name);
 		} else {
-			room = RocketChat.models.Rooms.findByTypeAndName(type, name).fetch();
+			room = RocketChat.models.Rooms.findOneByTypeNameServerId(type, name, serverId);
 		}
 
 		if (!room) {

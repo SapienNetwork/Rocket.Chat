@@ -28,6 +28,8 @@ Meteor.publish('userData', function() {
 			'services.password.bcrypt': 1,
 			'services.totp.enabled': 1,
 			statusLivechat: 1,
+			servers: 1,
+			lastOpenServer: 1,
 			banners: 1
 		}
 	});
