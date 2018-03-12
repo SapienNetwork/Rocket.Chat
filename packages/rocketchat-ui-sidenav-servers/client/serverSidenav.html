@@ -1,0 +1,21 @@
+<template name="serverSideNav">
+	<aside class="sidebar-server" role="navigation">
+		<ul class="rooms-list__list" style="margin-top: 20px;">
+			{{#each servers}}
+			<li class="server-item rc-tooltip rc-tooltip--down" aria-label="{{name}}" data-id="{{_id}}" style="padding: 10px; height: auto;">
+				<a href="/channel/10001" title="{{name}}">
+					<div class="rc-directory-channel-avatar" style="width: 40px; height: 40px; margin: 0;">
+						<div class="avatar">
+							{{> avatar username=name}}
+						</div>
+					</div>
+				</a>
+			</li>
+			{{/each}}
+
+			<button class="rc-button rc-button--small rc-button--primary create-server" style="margin: 0 12px;">
+				{{> icon icon="plus" }}
+			</button>
+		</ul>
+	</aside>
+</template>
