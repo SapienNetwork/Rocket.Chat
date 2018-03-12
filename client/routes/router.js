@@ -12,6 +12,7 @@ FlowRouter.subscriptions = function() {
 		if (Meteor.userId()) {
 			this.register('userData', Meteor.subscribe('userData'));
 			this.register('activeUsers', Meteor.subscribe('activeUsers'));
+			this.register('servers', Meteor.subscribe('servers'));
 		}
 	});
 };
