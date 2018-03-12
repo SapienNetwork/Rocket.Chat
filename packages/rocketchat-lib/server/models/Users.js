@@ -257,6 +257,30 @@ class ModelUsers extends RocketChat.models._Base {
 		return this.update(query, update);
 	}
 
+	setLastOpenServer(_id, serverId) {
+		const query =	{_id};
+
+		const update = {
+			$set: {
+				lastOpenServer: serverId
+			}
+		};
+
+		return this.update(query, update);
+	}
+
+	addServer(_id, serverId) {
+		const query =	{_id};
+
+		const update = {
+			$addToSet: {
+				servers: serverId
+			}
+		};
+
+		return this.update(query, update);
+	}
+
 	updateLastLoginById(_id) {
 		const update = {
 			$set: {
@@ -604,4 +628,4 @@ Find users to send a message by email if:
 	}
 }
 
-RocketChat.models.Users = new ModelUsers(Meteor.users, true);
+RocketChat.models.Users = new ModelUsers(Meteor.users);

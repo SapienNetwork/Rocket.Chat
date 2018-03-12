@@ -13,7 +13,7 @@ class ModelServers extends RocketChat.models._Base {
 		const server = {
 			createdAt: new Date(),
 			active: true,
-			avatarUrl: 'none'
+			type: 'text'
 		};
 
 		_.extend(server, data);
@@ -70,6 +70,16 @@ class ModelServers extends RocketChat.models._Base {
 		const update = {
 			$set: {
 				active
+			}
+		};
+
+		return this.update(_id, update);
+	}
+
+	setDefaultRoom(_id, roomId) {
+		const update = {
+			$set: {
+				defaultRoom: roomId
 			}
 		};
 

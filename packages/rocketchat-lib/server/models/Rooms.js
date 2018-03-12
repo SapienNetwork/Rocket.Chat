@@ -5,14 +5,14 @@ class ModelRooms extends RocketChat.models._Base {
 	constructor() {
 		super(...arguments);
 
-		this.tryEnsureIndex({ 'name': 1 }, { unique: 1, sparse: 1 });
-		this.tryEnsureIndex({ 'default': 1 });
-		this.tryEnsureIndex({ 'usernames': 1 });
-		this.tryEnsureIndex({ 't': 1 });
-		this.tryEnsureIndex({ 'u._id': 1 });
+		this.tryEnsureIndex({ 'name': 1, 'serverId': 1 }, { unique: 1, sparse: 1 });
+		this.tryEnsureIndex({ 'default': 1, 'serverId': 1 });
+		this.tryEnsureIndex({ 'usernames': 1, 'serverId': 1 });
+		this.tryEnsureIndex({ 't': 1, 'serverId': 1 });
+		this.tryEnsureIndex({ 'u._id': 1, 'serverId': 1 });
 
 		this.cache.ignoreUpdatedFields = ['msgs', 'lm'];
-		this.cache.ensureIndex(['t', 'name'], 'unique');
+		this.cache.ensureIndex(['t', 'name', 'serverId'], 'unique');
 		this.cache.options = {fields: {usernames: 0}};
 	}
 
@@ -34,8 +34,8 @@ class ModelRooms extends RocketChat.models._Base {
 		return this.findOne(query, options);
 	}
 
-	findOneByName(name, options) {
-		const query = {name};
+	findOneByName(name, serverId, options) {
+		const query = {name, serverId};
 
 		return this.findOne(query, options);
 	}
@@ -49,8 +49,8 @@ class ModelRooms extends RocketChat.models._Base {
 		return this.findOne(query);
 	}
 
-	findOneByDisplayName(fname, options) {
-		const query = {fname};
+	findOneByDisplayName(fname, serverId, options) {
+		const query = {fname, serverId};
 
 		return this.findOne(query, options);
 	}
@@ -164,6 +164,58 @@ class ModelRooms extends RocketChat.models._Base {
 			_id: {
 				$in: ids
 			},
+			_updatedAt: {
+				$gt: _updatedAt
+			}
+		};
+
+		return this.find(query, options);
+	}
+
+	findBySubscriptionUserIdServerIds(userId, serverIds, options) {
+		let data;
+		if (this.useCache) {
+			data = RocketChat.models.Subscriptions.findByUserId(userId).fetch();
+			data = data.map(function(item) {
+				if (item._room) {
+					return item._room;
+				}
+				console.log('Empty Room for Subscription', item);
+			});
+			data = data.filter(item => item);
+			return this.arrayToCursor(this.processQueryOptionsOnResult(data, options));
+		}
+
+		data = RocketChat.models.Subscriptions.findByUserId(userId, {fields: {rid: 1}}).fetch();
+		data = data.map(item => item.rid);
+
+		const query = {
+			_id: { $in: data },
+			'serverId': { $in: serverIds }
+		};
+
+		return this.find(query, options);
+	}
+
+	findBySubscriptionUserIdServerIdsUpdatedAfter(userId, serverIds, _updatedAt, options) {
+		if (this.useCache) {
+			let data = RocketChat.models.Subscriptions.findByUserId(userId).fetch();
+			data = data.map(function(item) {
+				if (item._room) {
+					return item._room;
+				}
+				console.log('Empty Room for Subscription', item);
+			});
+			data = data.filter(item => item && item._updatedAt > _updatedAt);
+			return this.arrayToCursor(this.processQueryOptionsOnResult(data, options));
+		}
+
+		let ids = RocketChat.models.Subscriptions.findByUserId(userId, {fields: {rid: 1}}).fetch();
+		ids = ids.map(item => item.rid);
+
+		const query = {
+			_id: { $in: ids },
+			'serverId': { $in: serverIds },
 			_updatedAt: {
 				$gt: _updatedAt
 			}
@@ -365,6 +417,20 @@ class ModelRooms extends RocketChat.models._Base {
 		return this.find(query, options);
 	}
 
+	findOneByTypeNameServerId(type, name, serverId, options) {
+		if (this.useCache) {
+			return this.cache.findByIndex('t,name', [type, name], options);
+		}
+
+		const query = {
+			name,
+			serverId,
+			t: type
+		};
+
+		return this.findOne(query, options);
+	}
+
 	findByTypeAndNameContainingUsername(type, name, username, options) {
 		const query = {
 			name,
@@ -388,6 +454,18 @@ class ModelRooms extends RocketChat.models._Base {
 	}
 
 	// UPDATE
+
+	setServerId(_id, serverId) {
+		const query = {_id};
+		const update = {
+			$set: {
+				serverId
+			}
+		};
+
+		return this.update(query, update);
+	}
+
 	addImportIds(_id, importIds) {
 		importIds = [].concat(importIds);
 		const query = {_id};
@@ -765,11 +843,12 @@ class ModelRooms extends RocketChat.models._Base {
 	}
 
 	// INSERT
-	createWithTypeNameUserAndUsernames(type, name, fname, user, usernames, extraData) {
+	createWithTypeNameUserAndUsernames(type, serverId, name, fname, user, usernames, extraData) {
 		const room = {
 			name,
 			fname,
 			t: type,
+			serverId,
 			usernames,
 			msgs: 0,
 			u: {
@@ -818,4 +897,4 @@ class ModelRooms extends RocketChat.models._Base {
 	}
 }
 
-RocketChat.models.Rooms = new ModelRooms('room', true);
+RocketChat.models.Rooms = new ModelRooms('room');
