@@ -37,7 +37,7 @@ function openRoom(type, name) {
 						}
 					});
 				} else {
-					Meteor.call('getRoomByTypeAndName', type, name, function(err, record) {
+					Meteor.call('getRoomByTypeAndName', type, name, Session.get('currentServer'), function(err, record) {
 						if (err) {
 							Session.set('roomNotFound', {type, name});
 							return BlazeLayout.render('main', {center: 'roomNotFound'});
