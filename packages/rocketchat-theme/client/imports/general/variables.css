@@ -168,6 +168,13 @@
 	--sidebar-small-header-padding: var(--sidebar-small-default-padding);
 
 	/*
+	* Server - Sidebar
+	*/
+	--sidebar-server-width: 70px;
+	--sidebar-server-background: var(--color-darkest);
+	--sidebar-server-color: var(--color-white);
+
+	/*
 	* Sidebar flex
 	*/
 	--sidebar-flex-search-background: var(--color-white);

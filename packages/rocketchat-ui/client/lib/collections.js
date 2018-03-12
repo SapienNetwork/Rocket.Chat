@@ -3,6 +3,7 @@ import _ from 'underscore';
 this.ChatMessage = new Mongo.Collection(null);
 this.CachedChatRoom = new RocketChat.CachedCollection({ name: 'rooms' });
 this.ChatRoom = this.CachedChatRoom.collection;
+this.Servers = new Mongo.Collection('rocketchat_servers');
 
 this.CachedChatSubscription = new RocketChat.CachedCollection({ name: 'subscriptions' });
 this.ChatSubscription = this.CachedChatSubscription.collection;
@@ -16,6 +17,7 @@ RocketChat.models.Users = _.extend({}, RocketChat.models.Users, Meteor.users);
 RocketChat.models.Subscriptions = _.extend({}, RocketChat.models.Subscriptions, this.ChatSubscription);
 RocketChat.models.Rooms = _.extend({}, RocketChat.models.Rooms, this.ChatRoom);
 RocketChat.models.Messages = _.extend({}, RocketChat.models.Messages, this.ChatMessage);
+RocketChat.models.Servers = _.extend({}, RocketChat.models.Servers, this.Servers);
 
 Meteor.startup(() => {
 	Tracker.autorun(() => {

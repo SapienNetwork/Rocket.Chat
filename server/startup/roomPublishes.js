@@ -16,6 +16,7 @@ Meteor.startup(function() {
 				jitsiTimeout: 1,
 				description: 1,
 				sysMes: 1,
+				serverId: 1,
 				joinCodeRequired: 1,
 				streamingOptions: 1
 			}
@@ -50,6 +51,7 @@ Meteor.startup(function() {
 				jitsiTimeout: 1,
 				description: 1,
 				sysMes: 1,
+				serverId: 1,
 				tokenpass: 1,
 				streamingOptions: 1
 			}
@@ -73,6 +75,7 @@ Meteor.startup(function() {
 				u: 1,
 				usernames: 1,
 				topic: 1,
+				serverId: 1,
 				jitsiTimeout: 1
 			}
 		};

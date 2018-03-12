@@ -89,7 +89,7 @@ rocketchat:katex
 #rocketchat:ldap
 rocketchat:lib
 #rocketchat:livechat
-rocketchat:livestream
+#rocketchat:livestream
 rocketchat:logger
 rocketchat:login-token
 rocketchat:mailer
@@ -111,7 +111,7 @@ rocketchat:postcss
 rocketchat:push-notifications
 rocketchat:reactions
 rocketchat:apps
-#rocketchat:sandstorm
+rocketchat:sandstorm
 #rocketchat:slackbridge
 rocketchat:slashcommands-archive
 rocketchat:slashcommands-asciiarts
@@ -145,6 +145,7 @@ rocketchat:ui-login
 rocketchat:ui-master
 rocketchat:ui-message
 rocketchat:ui-sidenav
+rocketchat:ui-sidenav-servers
 rocketchat:ui-vrecord
 rocketchat:version
 rocketchat:videobridge

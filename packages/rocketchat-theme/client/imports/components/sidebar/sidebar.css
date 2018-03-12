@@ -19,6 +19,13 @@
 
 	background-color: var(--sidebar-background);
 
+	&-server {
+		width: var(--sidebar-server-width);
+		background-color: var(--sidebar-server-background);
+		color: var(--sidebar-server-color);
+		z-index: 3;
+	}
+
 	&-light {
 		position: absolute;
 

@@ -4,12 +4,12 @@ Meteor.startup(function() {
 	Meteor.defer(function() {
 
 
-
-		if (!RocketChat.models.Rooms.findOneById('GENERAL')) {
-			RocketChat.models.Rooms.createWithIdTypeAndName('GENERAL', 'c', 'general', {
-				'default': true
-			});
-		}
+		// XXX
+		// if (!RocketChat.models.Rooms.findOneById('GENERAL')) {
+		// 	RocketChat.models.Rooms.createWithIdTypeAndName('GENERAL', 'c', 'general', {
+		// 		'default': true
+		// 	});
+		// }
 
 		if (!RocketChat.models.Users.db.findOneById('rocket.cat')) {
 			RocketChat.models.Users.create({
@@ -190,8 +190,8 @@ Meteor.startup(function() {
 			Accounts.setPassword(adminUser._id, adminUser._id);
 
 			RocketChat.authz.addUserRoles(adminUser._id, 'admin');
-
-			return RocketChat.addUserToDefaultChannels(adminUser, true);
+			// XXX
+			// return RocketChat.addUserToDefaultChannels(adminUser, true);
 		}
 	});
 });

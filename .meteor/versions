@@ -159,7 +159,6 @@ rocketchat:irc@0.0.2
 rocketchat:issuelinks@0.0.1
 rocketchat:katex@0.0.1
 rocketchat:lib@0.0.1
-rocketchat:livestream@0.0.5
 rocketchat:logger@0.0.1
 rocketchat:login-token@1.0.0
 rocketchat:mailer@0.0.1
@@ -182,6 +181,7 @@ rocketchat:otr@0.0.1
 rocketchat:postcss@1.0.0
 rocketchat:push-notifications@0.0.1
 rocketchat:reactions@0.0.1
+rocketchat:sandstorm@0.0.1
 rocketchat:slashcommands-archive@0.0.1
 rocketchat:slashcommands-asciiarts@0.0.1
 rocketchat:slashcommands-create@0.0.1
@@ -212,6 +212,7 @@ rocketchat:ui-login@0.1.0
 rocketchat:ui-master@0.1.0
 rocketchat:ui-message@0.1.0
 rocketchat:ui-sidenav@0.1.0
+rocketchat:ui-sidenav-servers@0.1.0
 rocketchat:ui-vrecord@0.0.1
 rocketchat:version@1.0.0
 rocketchat:version-check@0.0.1

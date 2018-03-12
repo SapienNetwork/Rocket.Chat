@@ -1,6 +1,7 @@
 Meteor.methods({
-	createPrivateGroup(name, members, readOnly = false, customFields = {}, extraData = {}) {
+	createPrivateGroup(name, serverId, members, readOnly = false, customFields = {}, extraData = {}) {
 		check(name, String);
+		check(serverId, String);
 		check(members, Match.Optional([String]));
 
 		if (!Meteor.userId()) {
@@ -22,6 +23,6 @@ Meteor.methods({
 			})
 		}));
 
-		return RocketChat.createRoom('p', name, Meteor.user() && Meteor.user().username, members, readOnly, {customFields, ...extraData});
+		return RocketChat.createRoom('p', name, serverId, Meteor.user() && Meteor.user().username, members, readOnly, {customFields, ...extraData});
 	}
 });
