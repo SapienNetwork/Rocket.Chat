@@ -61,6 +61,21 @@
 			border-color: transparent transparent var(--tooltip-background)  transparent;
 		}
 	}
+
+	&--right {
+		&::after {
+			top: 100%;
+			bottom: initial;
+		}
+
+		&::before {
+			top: 100%;
+			bottom: initial;
+
+			border-width: 6px;
+			border-color: transparent transparent var(--tooltip-background)  transparent;
+		}
+	}
 }
 
 @media (min-width: 501px) {

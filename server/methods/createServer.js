@@ -28,7 +28,8 @@ Meteor.methods({
 
 			if (serverId) {
 				RocketChat.models.Users.addServer(Meteor.userId(), serverId);
-				const room = await Meteor.call('createChannel', 'general', serverId, [], false);
+				// XXX
+				const room = await Meteor.call('createChannel', `${ name.replace(/ /g,'') }general`, serverId, [], false);
 				return RocketChat.models.Servers.setDefaultRoom(serverId, room.rid);
 			}
 

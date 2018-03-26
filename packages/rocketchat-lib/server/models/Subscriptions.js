@@ -70,7 +70,10 @@ class ModelSubscriptions extends RocketChat.models._Base {
 		serverIds = [].concat(serverIds);
 		const query = {
 			'u._id': userId,
-			'serverId': { $in: serverIds }
+			$or: [
+				{ 'serverId': { $in: serverIds } },
+				{ t: 'd' }
+			]
 		};
 
 		return this.find(query, options);
