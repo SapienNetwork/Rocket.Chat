@@ -256,39 +256,113 @@ Template.sidebarHeader.events({
 	'click .sidebar__header .avatar'(e) {
 		if (!(Meteor.userId() == null && RocketChat.settings.get('Accounts_AllowAnonymousRead'))) {
 			const user = Meteor.user();
+			const addServer = {
+				icon: 'customize',
+				name: 'Add Server',
+				type: 'open',
+				id: 'addServer',
+				action: () => {
+					const text = `\
+					<div class='create-server'>
+						<div class="rc-input__wrapper">
+							<input class="rc-input__element" id='server-name' style='display: inherit;' value='' placeholder='server name'>
+						</div>
+						<div class="rc-input__wrapper">
+							<input class="rc-input__element" id='server-description' style='display: inherit;' value='' placeholder='server description'>
+						</div>
+					</div>`;
+
+					modal.open(
+						{
+							title: 'Create new server',
+							text,
+							showCancelButton: true,
+							confirmButtonText: 'Create',
+							closeOnConfirm: true,
+							closeOnCancel: true,
+							html: true
+						},
+						function(isConfirm) {
+
+							const name = document.getElementById('server-name').value;
+							const description = document.getElementById('server-description').value;
+							if (isConfirm !== true) {
+								return;
+							}
+
+							if (!name) {
+								modal.open({
+									title: 'Name can not be empty',
+									type: 'error',
+									timer: 1000
+								});
+								return;
+							}
+
+							Meteor.call('createServer', name, description, err => {
+								if (!err) {
+									modal.open({
+										title: t('Saved'),
+										type: 'success',
+										timer: 1000,
+										showConfirmButton: false
+									});
+								}
+							});
+						}
+					);
+					popover.close();
+				}
+			};
+			const servers = Servers.find().fetch();
 			const config = {
 				popoverClass: 'sidebar-header',
 				columns: [
 					{
 						groups: [
 							{
-								title: t('User'),
-								items: [
-									{
+								title: 'Servers',
+								items: servers.map(item => {
+									const action = () => {
+										Session.set('currentServer', item._id);
+										Meteor.call('setLastOpenServer', item._id);
+										popover.close();
+									};
+
+									return {
 										icon: 'circle',
-										name: t('Online'),
-										modifier: 'online',
-										action: () => setStatus('online')
-									},
-									{
-										icon: 'circle',
-										name: t('Away'),
-										modifier: 'away',
-										action: () => setStatus('away')
-									},
-									{
-										icon: 'circle',
-										name: t('Busy'),
-										modifier: 'busy',
-										action: () => setStatus('busy')
-									},
-									{
-										icon: 'circle',
-										name: t('Invisible'),
-										modifier: 'offline',
-										action: () => setStatus('offline')
-									}
-								]
+										name: t(item.name),
+										type: 'open',
+										id: item._id,
+										action
+									};
+								}).concat([addServer])
+								// items: [
+								// 	{
+								// 		icon: 'circle',
+								// 		name: t('Online'),
+								// 		modifier: 'online',
+								// 		action: () => setStatus('online')
+								// 	},
+								// 	{
+								// 		icon: 'circle',
+								// 		name: t('Away'),
+								// 		modifier: 'away',
+								// 		action: () => setStatus('away')
+								// 	},
+								// 	{
+								// 		icon: 'circle',
+								// 		name: t('Busy'),
+								// 		modifier: 'busy',
+								// 		action: () => setStatus('busy')
+								// 	},
+								// 	{
+								// 		icon: 'circle',
+								// 		name: t('Invisible'),
+								// 		modifier: 'offline',
+								// 		action: () => setStatus('offline')
+								// 	}
+								// ]
 							},
 							{
 								items: [
