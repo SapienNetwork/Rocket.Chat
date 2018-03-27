@@ -18,7 +18,7 @@ export class PublicRoomType extends RoomTypeConfig {
 	constructor() {
 		super({
 			identifier: 'c',
-			order: 30,
+			order: 40,
 			icon: 'hashtag',
 			label: 'Channels',
 			route: new PublicRoomRoute()

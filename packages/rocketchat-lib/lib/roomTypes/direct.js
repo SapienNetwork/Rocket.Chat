@@ -22,7 +22,7 @@ export class DirectMessageRoomType extends RoomTypeConfig {
 	constructor() {
 		super({
 			identifier: 'd',
-			order: 50,
+			order: 30,
 			label: 'Direct_Messages',
 			route: new DirectMessageRoomRoute()
 		});
