@@ -20,13 +20,11 @@ Template.roomList.helpers({
 		const sortBy = RocketChat.getUserPreference(user, 'sidebarSortby') || 'alphabetical';
 		const query = {
 			open: true,
-			serverId: Session.get('currentServer')
+			$or: [
+				{ serverId: Session.get('currentServer') },
+				{ t: 'd' }
+			]
 		};
-		const serverId = Session.get('currentServer');
-
-		if (serverId) {
-			query.serverId = serverId;
-		}
 
 		const sort = {};
 
