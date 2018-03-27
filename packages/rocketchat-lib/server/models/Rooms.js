@@ -215,10 +215,13 @@ class ModelRooms extends RocketChat.models._Base {
 
 		const query = {
 			_id: { $in: ids },
-			'serverId': { $in: serverIds },
 			_updatedAt: {
 				$gt: _updatedAt
-			}
+			},
+			$or: [
+				{ 'serverId': { $in: serverIds } },
+				{ t: 'd' }
+			]
 		};
 
 		return this.find(query, options);
@@ -424,8 +427,10 @@ class ModelRooms extends RocketChat.models._Base {
 
 		const query = {
 			name,
-			serverId,
-			t: type
+			$or: [
+				{ serverId, t: type },
+				{ t: 'd' }
+			]
 		};
 
 		return this.findOne(query, options);
