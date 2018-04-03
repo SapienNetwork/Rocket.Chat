@@ -121,7 +121,7 @@ Template.toolbar.helpers({
 
 		const config = {
 			cls: 'search-results-list',
-			collection: Meteor.userId() ? RocketChat.models.Subscriptions : RocketChat.models.Rooms,
+			collection: RocketChat.models.Servers,
 			template: 'toolbarSearchList',
 			sidebar: true,
 			emptyTemplate: 'toolbarSearchListEmpty',
@@ -134,66 +134,66 @@ Template.toolbar.helpers({
 			getFilter(collection, filter, cb) {
 				filterText = filter;
 
-				const type = {
-					users: true,
-					rooms: true
-				};
+				// const type = {
+				// 	users: true,
+				// 	rooms: true
+				// };
+				const query = {};
+				// const query = {
+				// 	rid: {
+				// 		$ne: Session.get('openedRoom')
+				// 	}
+				// };
 
-				const query = {
-					rid: {
-						$ne: Session.get('openedRoom')
-					}
-				};
+				// if (!Meteor.userId()) {
+				// 	query._id = query.rid;
+				// 	delete query.rid;
+				// }
 
-				if (!Meteor.userId()) {
-					query._id = query.rid;
-					delete query.rid;
-				}
+				// if (filterText[0] === '#') {
+				// 	filterText = filterText.slice(1);
+				// 	type.users = false;
+				// 	query.t = 'c';
+				// }
 
-				if (filterText[0] === '#') {
-					filterText = filterText.slice(1);
-					type.users = false;
-					query.t = 'c';
-				}
-
-				if (filterText[0] === '@') {
-					filterText = filterText.slice(1);
-					type.rooms = false;
-					query.t = 'd';
-				}
+				// if (filterText[0] === '@') {
+				// 	filterText = filterText.slice(1);
+				// 	type.rooms = false;
+				// 	query.t = 'd';
+				// }
 
 				const searchQuery = new RegExp((RegExp.escape(filterText)), 'i');
-				query.$or = [
-					{ name: searchQuery },
-					{ fname: searchQuery }
-				];
+				// query.$or = [
+				// 	{ name: searchQuery },
+				// 	{ fname: searchQuery }
+				// ];
+				query.name = searchQuery;
 
-				resultsFromClient = collection.find(query, {limit: 20, sort: {unread: -1, ls: -1}}).fetch();
+				resultsFromClient = collection.find(query, {limit: 20, sort: {name: -1}}).fetch();
 
-				const resultsFromClientLength = resultsFromClient.length;
-				const user = Meteor.user();
-				if (user) {
-					usernamesFromClient = [user];
-				}
+				// const resultsFromClientLength = resultsFromClient.length;
+				// const user = Meteor.user();
+				// if (user) {
+				// 	usernamesFromClient = [user];
+				// }
 
-				for (let i = 0; i < resultsFromClientLength; i++) {
-					if (resultsFromClient[i].t === 'd') {
-						usernamesFromClient.push(resultsFromClient[i].name);
-					}
-				}
+				// for (let i = 0; i < resultsFromClientLength; i++) {
+				// 	if (resultsFromClient[i].t === 'd') {
+				// 		usernamesFromClient.push(resultsFromClient[i].name);
+				// 	}
+				// }
 
 				cb(resultsFromClient);
 
 				// Use `filter` here to get results for `#` or `@` filter only
-				if (resultsFromClient.length < 20) {
-					getFromServerDebounced(cb, type);
-				}
+				// if (resultsFromClient.length < 20) {
+				// 	getFromServerDebounced(cb, type);
+				// }
 			},
 
 			getValue(_id, collection, records) {
 				const doc = _.findWhere(records, {_id});
-
-				RocketChat.roomTypes.openRouteLink(doc.t, doc, FlowRouter.current().queryParams);
+				RocketChat.roomTypes.openRouteLink(doc.name, doc, FlowRouter.current().queryParams);
 				menu.close();
 			}
 		};
