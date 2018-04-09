@@ -2,6 +2,11 @@
 	<header class="sidebar__header">
 		{{#with myUserInfo}}
 			<div class="sidebar__header-thumb">
+				<button class="server sidebar__toolbar-button rc-tooltip rc-tooltip--down js-button" aria-label="Server">
+					{{> icon block="sidebar__toolbar-button-icon" icon="team" }}
+				</button>
+			</div>
+			<div class="sidebar__header-thumb">
 				{{> avatar username=username}}
 				<div class="sidebar__header-status-bullet sidebar__header-status-bullet--{{status}}"></div>
 			</div>

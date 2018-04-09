@@ -119,29 +119,6 @@ const toolbarButtons = (user) => {
 		}
 	},
 	{
-		name: t('Sort'),
-		icon: 'sort',
-		action: (e) => {
-			const options = [];
-			const config = {
-				template: 'sortlist',
-				mousePosition: () => ({
-					x: e.currentTarget.getBoundingClientRect().left,
-					y: e.currentTarget.getBoundingClientRect().bottom + 50
-				}),
-				customCSSProperties: () => ({
-					top:  `${ e.currentTarget.getBoundingClientRect().bottom + 10 }px`,
-					left: `${ e.currentTarget.getBoundingClientRect().left - 10 }px`
-				}),
-				data: {
-					// value: instance.form[key].get(),
-					options
-				}
-			};
-			popover.open(config);
-		}
-	},
-	{
 		name: t('Create_A_New_Channel'),
 		icon: 'edit-rounded',
 		condition: () => RocketChat.authz.hasAtLeastOnePermission(['create-c', 'create-p']),
@@ -253,9 +230,8 @@ Template.sidebarHeader.events({
 		}
 		return this.action && this.action.apply(this, [e]);
 	},
-	'click .sidebar__header .avatar'(e) {
+	'click .sidebar__header .server'(e) {
 		if (!(Meteor.userId() == null && RocketChat.settings.get('Accounts_AllowAnonymousRead'))) {
-			const user = Meteor.user();
 			const addServer = {
 				icon: 'customize',
 				name: 'Add Server',
@@ -337,32 +313,59 @@ Template.sidebarHeader.events({
 										action
 									};
 								}).concat([addServer])
-								// items: [
-								// 	{
-								// 		icon: 'circle',
-								// 		name: t('Online'),
-								// 		modifier: 'online',
-								// 		action: () => setStatus('online')
-								// 	},
-								// 	{
-								// 		icon: 'circle',
-								// 		name: t('Away'),
-								// 		modifier: 'away',
-								// 		action: () => setStatus('away')
-								// 	},
-								// 	{
-								// 		icon: 'circle',
-								// 		name: t('Busy'),
-								// 		modifier: 'busy',
-								// 		action: () => setStatus('busy')
-								// 	},
-								// 	{
-								// 		icon: 'circle',
-								// 		name: t('Invisible'),
-								// 		modifier: 'offline',
-								// 		action: () => setStatus('offline')
-								// 	}
-								// ]
+							}
+						]
+					}
+				],
+				mousePosition: () => ({
+					x: e.currentTarget.getBoundingClientRect().left,
+					y: e.currentTarget.getBoundingClientRect().bottom + 50
+				}),
+				customCSSProperties: () => ({
+					top:  `${ e.currentTarget.getBoundingClientRect().bottom + 10 }px`,
+					left: `${ e.currentTarget.getBoundingClientRect().left - 10 }px`
+				})
+			};
+
+			popover.open(config);
+		}
+	},
+	'click .sidebar__header .avatar'(e) {
+		if (!(Meteor.userId() == null && RocketChat.settings.get('Accounts_AllowAnonymousRead'))) {
+			const user = Meteor.user();
+			const config = {
+				popoverClass: 'sidebar-header',
+				columns: [
+					{
+						groups: [
+							{
+								title: t('User'),
+								items: [
+									{
+										icon: 'circle',
+										name: t('online'),
+										modifier: 'online',
+										action: () => setStatus('online')
+									},
+									{
+										icon: 'circle',
+										name: t('away'),
+										modifier: 'away',
+										action: () => setStatus('away')
+									},
+									{
+										icon: 'circle',
+										name: t('busy'),
+										modifier: 'busy',
+										action: () => setStatus('busy')
+									},
+									{
+										icon: 'circle',
+										name: t('invisible'),
+										modifier: 'offline',
+										action: () => setStatus('offline')
+									}
+								]
 							},
 							{
 								items: [
@@ -380,7 +383,7 @@ Template.sidebarHeader.events({
 									},
 									{
 										icon: 'sign-out',
-										name: t('Logout'),
+										name: 'Sign Out',
 										type: 'open',
 										id: 'logout',
 										action: () => {
