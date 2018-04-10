@@ -24,7 +24,7 @@ const sortUsers = function(field, direction) {
 
 
 Meteor.methods({
-	browseChannels({text='', type = 'channels', sortBy = 'name', sortDirection = 'asc', page = 0, limit = 10}) {
+	browseChannels({text='', type = 'channels', serverId, sortBy = 'name', sortDirection = 'asc', page = 0, limit = 10}) {
 		const regex = new RegExp(s.trim(s.escapeRegExp(text)), 'i');
 
 		if (!['channels', 'users'].includes(type)) {
@@ -55,7 +55,7 @@ Meteor.methods({
 			if (!RocketChat.authz.hasPermission(user._id, 'view-c-room')) {
 				return;
 			}
-			return RocketChat.models.Rooms.findByNameAndType(regex, 'c', {
+			return RocketChat.models.Rooms.findByNameTypeAndServer(regex, 'c', serverId, {
 				...options,
 				sort,
 				fields: {

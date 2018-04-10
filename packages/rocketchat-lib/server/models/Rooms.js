@@ -301,10 +301,11 @@ class ModelRooms extends RocketChat.models._Base {
 		return this.find(query, options);
 	}
 
-	findByNameAndType(name, type, options) {
+	findByNameTypeAndServer(name, type, serverId, options) {
 		const query = {
 			t: type,
-			name
+			name,
+			serverId
 		};
 
 		// do not use cache
