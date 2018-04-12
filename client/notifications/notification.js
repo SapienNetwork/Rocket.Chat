@@ -1,4 +1,4 @@
-/* globals KonchatNotification, fireGlobalEvent, readMessage, CachedChatSubscription */
+/* globals KonchatNotification, fireGlobalEvent, readMessage */
 
 // Show notifications and play a sound for new messages.
 // We trust the server to only send notifications for interesting messages, e.g. direct messages or
@@ -73,11 +73,11 @@ Meteor.startup(function() {
 				}
 			});
 
-			CachedChatSubscription.onSyncData = function(action, sub) {
-				if (action !== 'removed') {
-					notifyNewRoom(sub);
-				}
-			};
+			// CachedChatSubscription.onSyncData = function(action, sub) {
+			// 	if (action !== 'removed') {
+			// 		notifyNewRoom(sub);
+			// 	}
+			// };
 
 			RocketChat.Notifications.onUser('subscriptions-changed', (action, sub) => {
 				notifyNewRoom(sub);

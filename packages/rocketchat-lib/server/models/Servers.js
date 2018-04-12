@@ -144,7 +144,7 @@ class ModelServers extends RocketChat.models._Base {
 	}
 }
 
-RocketChat.models.Servers = new ModelServers('servers', true);
+RocketChat.models.Servers = new ModelServers('servers');
 
 /*
 	name: String

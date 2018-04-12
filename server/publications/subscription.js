@@ -32,37 +32,49 @@ const fields = {
 	hideUnreadStatus: 1
 };
 
-Meteor.methods({
-	'subscriptions/get'(updatedAt) {
-		if (!Meteor.userId()) {
-			return [];
-		}
-
-		this.unblock();
-
-		const options = { fields };
-		const user = Meteor.user();
-		const records = RocketChat.models.Subscriptions.findByUserIdAndServers(Meteor.userId(), user.servers, options).fetch();
-
-		if (updatedAt instanceof Date) {
-			return {
-				update: records.filter(function(record) {
-					return record._updatedAt > updatedAt;
-				}),
-				remove: RocketChat.models.Subscriptions.trashFindDeletedAfter(updatedAt, {
-					'u._id': Meteor.userId()
-				}, {
-					fields: {
-						_id: 1,
-						_deletedAt: 1
-					}
-				}).fetch()
-			};
-		}
-
-		return records;
+Meteor.publish('subscriptions', function subscriptions() {
+	if (!Meteor.userId()) {
+		return this.ready();
 	}
+
+	const options = { fields };
+	const user = Meteor.user();
+
+	return RocketChat.models.Subscriptions.findByUserIdAndServers(Meteor.userId(), user.servers, options);
 });
+
+
+// Meteor.methods({
+// 	'subscriptions/get'(updatedAt) {
+// 		if (!Meteor.userId()) {
+// 			return [];
+// 		}
+
+// 		this.unblock();
+
+// 		const options = { fields };
+// 		const user = Meteor.user();
+// 		const records = RocketChat.models.Subscriptions.findByUserIdAndServers(Meteor.userId(), user.servers, options).fetch();
+
+// 		if (updatedAt instanceof Date) {
+// 			return {
+// 				update: records.filter(function(record) {
+// 					return record._updatedAt > updatedAt;
+// 				}),
+// 				remove: RocketChat.models.Subscriptions.trashFindDeletedAfter(updatedAt, {
+// 					'u._id': Meteor.userId()
+// 				}, {
+// 					fields: {
+// 						_id: 1,
+// 						_deletedAt: 1
+// 					}
+// 				}).fetch()
+// 			};
+// 		}
+
+// 		return records;
+// 	}
+// });
 
 RocketChat.models.Subscriptions.on('changed', function(type, subscription) {
 	RocketChat.Notifications.notifyUserInThisInstance(subscription.u._id, 'subscriptions-changed', type, RocketChat.models.Subscriptions.processQueryOptionsOnResult(subscription, {

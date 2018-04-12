@@ -1,10 +1,7 @@
-/*globals AdminChatRoom, RocketChat */
 import _ from 'underscore';
 import s from 'underscore.string';
 
 import { RocketChatTabBar } from 'meteor/rocketchat:lib';
-
-this.AdminChatRoom = new Mongo.Collection('rocketchat_room');
 
 Template.adminRooms.helpers({
 	isReady() {
@@ -106,7 +103,7 @@ Template.adminRooms.onCreated(function() {
 			query['t'] = { $in: types };
 		}
 		const limit = instance.limit && instance.limit.get();
-		return AdminChatRoom.find(query, { limit, sort: { 'default': -1, name: 1}});
+		return ChatRoom.find(query, { limit, sort: { 'default': -1, name: 1}});
 	};
 	this.getSearchTypes = function() {
 		return _.map($('[name=room-type]:checked'), function(input) {

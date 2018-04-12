@@ -1,23 +1,22 @@
 import toastr from 'toastr';
-/* globals AdminChatRoom */
 
 Template.channelSettingsDefault.helpers({
 	canMakeDefault() {
-		const room = AdminChatRoom.findOne(this.rid, { fields: { t: 1 }});
+		const room = ChatRoom.findOne(this.rid, { fields: { t: 1 }});
 		return room && room.t === 'c';
 	},
 	editing(field) {
 		return Template.instance().editing.get() === field;
 	},
 	roomDefault() {
-		const room = AdminChatRoom.findOne(this.rid, { fields: { default: 1 }});
+		const room = ChatRoom.findOne(this.rid, { fields: { default: 1 }});
 
 		if (room) {
 			return room.default;
 		}
 	},
 	defaultDescription() {
-		const room = AdminChatRoom.findOne(this.rid, { fields: { default: 1 }});
+		const room = ChatRoom.findOne(this.rid, { fields: { default: 1 }});
 		if (room && room.default) {
 			return t('True');
 		} else {

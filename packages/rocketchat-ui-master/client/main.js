@@ -1,4 +1,4 @@
-/* globals toolbarSearch, menu, isRtl, fireGlobalEvent, CachedChatSubscription, DynamicCss */
+/* globals toolbarSearch, menu, isRtl, fireGlobalEvent, DynamicCss */
 import Clipboard from 'clipboard';
 import s from 'underscore.string';
 
@@ -137,10 +137,9 @@ Template.main.helpers({
 		return iframeEnabled && RocketChat.iframeLogin.reactiveIframeUrl.get();
 	},
 	subsReady() {
-		const routerReady = FlowRouter.subsReady('userData', 'activeUsers', 'servers');
-		const subscriptionsReady = CachedChatSubscription.ready.get();
+		const routerReady = FlowRouter.subsReady('userData', 'activeUsers', 'servers', 'serverRooms', 'subscriptions');
 		const settingsReady = RocketChat.settings.cachedCollection.ready.get();
-		const ready = (Meteor.userId() == null) || (routerReady && subscriptionsReady && settingsReady);
+		const ready = (Meteor.userId() == null) || (routerReady && settingsReady);
 		RocketChat.CachedCollectionManager.syncEnabled = ready;
 		Meteor.defer(() => {
 			RocketChat.mainReady.set(ready);

@@ -191,7 +191,10 @@ class ModelRooms extends RocketChat.models._Base {
 
 		const query = {
 			_id: { $in: data },
-			'serverId': { $in: serverIds }
+			$or: [
+				{ 'serverId': { $in: serverIds } },
+				{ t: 'd' }
+			]
 		};
 
 		return this.find(query, options);

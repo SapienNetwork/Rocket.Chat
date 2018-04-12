@@ -24,7 +24,7 @@ function openRoom(type, name) {
 			c.stop();
 
 			const room = RocketChat.roomTypes.findRoom(type, name, user);
-			if (room == null) {
+			if (room == null || room === undefined) {
 				if (type === 'd') {
 					Meteor.call('createDirectMessage', name, function(err) {
 						if (!err) {
@@ -43,9 +43,12 @@ function openRoom(type, name) {
 							return BlazeLayout.render('main', {center: 'roomNotFound'});
 						} else {
 							delete record.$loki;
-							RocketChat.models.Rooms.upsert({ _id: record._id }, _.omit(record, '_id'));
+							// RocketChat.models.Rooms.upsert({ _id: record._id }, _.omit(record, '_id'));
 							RoomManager.close(type + name);
 							return openRoom(type, name);
+							// return Meteor.defer(() => {
+							// 	return FlowRouter.goToRoomById(record._id);
+							// });
 						}
 					});
 				}

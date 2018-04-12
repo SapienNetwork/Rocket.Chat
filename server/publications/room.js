@@ -37,6 +37,29 @@ const fields = {
 	streamingOptions: 1
 };
 
+Meteor.publish('serverRooms', function serverRooms() {
+	const options = { fields };
+
+	if (!Meteor.userId()) {
+		if (RocketChat.settings.get('Accounts_AllowAnonymousRead') === true) {
+			return RocketChat.models.Rooms.findByDefaultAndTypes(true, ['c'], options);
+		}
+		return this.ready();
+	}
+
+	const user = Meteor.user();
+	const query = {
+		$or: [
+			{ 'serverId': { $in: user.servers } },
+			{ t: 'd' },
+			{ usernames: user.username }
+		]
+	};
+
+	return RocketChat.models.Rooms.find(query, options);
+});
+
+
 const roomMap = (record) => {
 	if (record._room) {
 		return _.pick(record._room, ...Object.keys(fields));
@@ -46,31 +69,31 @@ const roomMap = (record) => {
 };
 
 Meteor.methods({
-	'rooms/get'(updatedAt) {
-		let options = {fields};
+	// 'rooms/get'(updatedAt) {
+	// 	let options = {fields};
 
-		if (!Meteor.userId()) {
-			if (RocketChat.settings.get('Accounts_AllowAnonymousRead') === true) {
-				return RocketChat.models.Rooms.findByDefaultAndTypes(true, ['c'], options).fetch();
-			}
-			return [];
-		}
+	// 	if (!Meteor.userId()) {
+	// 		if (RocketChat.settings.get('Accounts_AllowAnonymousRead') === true) {
+	// 			return RocketChat.models.Rooms.findByDefaultAndTypes(true, ['c'], options).fetch();
+	// 		}
+	// 		return [];
+	// 	}
 
-		this.unblock();
-		const user = Meteor.user();
-		options = {
-			fields
-		};
+	// 	this.unblock();
+	// 	const user = Meteor.user();
+	// 	options = {
+	// 		fields
+	// 	};
 
-		if (updatedAt instanceof Date) {
-			return {
-				update: RocketChat.models.Rooms.findBySubscriptionUserIdServerIdsUpdatedAfter(Meteor.userId(), user.servers, updatedAt, options).fetch(),
-				remove: RocketChat.models.Rooms.trashFindDeletedAfter(updatedAt, {}, {fields: {_id: 1, _deletedAt: 1}}).fetch()
-			};
-		}
+	// 	if (updatedAt instanceof Date) {
+	// 		return {
+	// 			update: RocketChat.models.Rooms.findBySubscriptionUserIdServerIdsUpdatedAfter(Meteor.userId(), user.servers, updatedAt, options).fetch(),
+	// 			remove: RocketChat.models.Rooms.trashFindDeletedAfter(updatedAt, {}, {fields: {_id: 1, _deletedAt: 1}}).fetch()
+	// 		};
+	// 	}
 
-		return RocketChat.models.Rooms.findBySubscriptionUserIdServerIds(Meteor.userId(), user.servers, options).fetch();
-	},
+	// 	return RocketChat.models.Rooms.findBySubscriptionUserIdServerIds(Meteor.userId(), user.servers, options).fetch();
+	// },
 
 	getRoomByTypeAndName(type, name, serverId) {
 
@@ -104,9 +127,8 @@ Meteor.methods({
 	}
 });
 
-RocketChat.models.Rooms.cache.on('sync', (type, room/*, diff*/) => {
+RocketChat.models.Rooms.on('sync', (type, room/*, diff*/) => {
 	const records = RocketChat.models.Subscriptions.findByRoomId(room._id).fetch();
-
 	const _room = roomMap({_room: room});
 	for (const record of records) {
 		RocketChat.Notifications.notifyUserInThisInstance(record.u._id, 'rooms-changed', type, _room);
