@@ -1,3 +1,5 @@
+/* globals LivechatVisitor */
+
 import toastr from 'toastr';
 Template.visitorEdit.helpers({
 	visitor() {
@@ -32,7 +34,7 @@ Template.visitorEdit.onCreated(function() {
 	this.room = new ReactiveVar();
 
 	this.autorun(() => {
-		this.visitor.set(Meteor.users.findOne({ _id: Template.currentData().visitorId }));
+		this.visitor.set(LivechatVisitor.findOne({ _id: Template.currentData().visitorId }));
 	});
 
 	this.autorun(() => {
@@ -42,10 +44,9 @@ Template.visitorEdit.onCreated(function() {
 
 Template.visitorEdit.events({
 	'submit form'(event, instance) {
-		console.log('this ->', this);
 		event.preventDefault();
-		let userData = { _id: instance.visitor.get()._id };
-		let roomData = { _id: instance.room.get()._id };
+		const userData = { _id: instance.visitor.get()._id };
+		const roomData = { _id: instance.room.get()._id };
 
 		userData.name = event.currentTarget.elements['name'].value;
 		userData.email = event.currentTarget.elements['email'].value;

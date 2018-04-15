@@ -1,4 +1,5 @@
 /* globals KonchatNotification */
+import s from 'underscore.string';
 
 Blaze.registerHelper('pathFor', function(path, kw) {
 	return FlowRouter.path(path, kw.hash);
@@ -27,7 +28,7 @@ FlowRouter.route('/', {
 		Tracker.autorun(function(c) {
 			if (FlowRouter.subsReady() === true) {
 				Meteor.defer(function() {
-					if (Meteor.user().defaultRoom) {
+					if (Meteor.user() && Meteor.user().defaultRoom) {
 						const room = Meteor.user().defaultRoom.split('/');
 						FlowRouter.go(room[0], { name: room[1] }, FlowRouter.current().queryParams);
 					} else {
@@ -60,7 +61,7 @@ FlowRouter.route('/home', {
 					saml: true,
 					credentialToken: queryParams.saml_idp_credentialToken
 				}],
-				userCallback: function() { BlazeLayout.render('main', {center: 'home'}); }
+				userCallback() { BlazeLayout.render('main', {center: 'home'}); }
 			});
 		} else {
 			BlazeLayout.render('main', {center: 'home'});
@@ -68,12 +69,15 @@ FlowRouter.route('/home', {
 	}
 });
 
-FlowRouter.route('/changeavatar', {
-	name: 'changeAvatar',
+FlowRouter.route('/directory', {
+	name: 'directory',
 
 	action() {
-		BlazeLayout.render('main', {center: 'avatarPrompt'});
-	}
+		BlazeLayout.render('main', {center: 'directory'});
+	},
+	triggersExit: [function() {
+		$('.main-content').addClass('rc-old');
+	}]
 });
 
 FlowRouter.route('/account/:group?', {
@@ -83,9 +87,12 @@ FlowRouter.route('/account/:group?', {
 		if (!params.group) {
 			params.group = 'Preferences';
 		}
-		params.group = _.capitalize(params.group, true);
-		BlazeLayout.render('main', { center: `account${params.group}` });
-	}
+		params.group = s.capitalize(params.group, true);
+		BlazeLayout.render('main', { center: `account${ params.group }` });
+	},
+	triggersExit: [function() {
+		$('.main-content').addClass('rc-old');
+	}]
 });
 
 FlowRouter.route('/history/private', {

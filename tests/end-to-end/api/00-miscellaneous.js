@@ -3,21 +3,13 @@
 /* eslint no-unused-vars: 0 */
 
 import {getCredentials, api, login, request, credentials} from '../../data/api-data.js';
-import {adminEmail} from '../../data/user.js';
+import {adminEmail, adminUsername, adminPassword} from '../../data/user.js';
 import supertest from 'supertest';
 
-describe('miscellaneous', () => {
-	before((done) => {
-		request.post(api('login'))
-		.send(login)
-		.expect('Content-Type', 'application/json')
-		.expect(200)
-		.expect((res) => {
-			credentials['X-Auth-Token'] = res.body.data.authToken;
-			credentials['X-User-Id'] = res.body.data.userId;
-		})
-		.end(done);
-	});
+describe('miscellaneous', function() {
+	this.retries(0);
+
+	before(done => getCredentials(done));
 
 	describe('API default', () => {
 	// Required by mobile apps
@@ -27,14 +19,6 @@ describe('miscellaneous', () => {
 				.expect(200)
 				.expect((res) => {
 					expect(res.body).to.have.property('version');
-					expect(res.body).to.have.deep.property('build.date');
-					expect(res.body).to.have.deep.property('build.nodeVersion');
-					expect(res.body).to.have.deep.property('build.arch');
-					expect(res.body).to.have.deep.property('build.platform');
-					expect(res.body).to.have.deep.property('build.osRelease');
-					expect(res.body).to.have.deep.property('build.totalMemory');
-					expect(res.body).to.have.deep.property('build.freeMemory');
-					expect(res.body).to.have.deep.property('build.cpus');
 				})
 				.end(done);
 		});
@@ -43,6 +27,32 @@ describe('miscellaneous', () => {
 	it('/login', () => {
 		expect(credentials).to.have.property('X-Auth-Token').with.length.at.least(1);
 		expect(credentials).to.have.property('X-User-Id').with.length.at.least(1);
+	});
+
+	it('/login (wrapper username)', (done) => {
+		request.post(api('login'))
+			.send({
+				user: {
+					username: adminUsername
+				},
+				password: adminPassword
+			})
+			.expect('Content-Type', 'application/json')
+			.expect(200)
+			.end(done);
+	});
+
+	it('/login (wrapper email)', (done) => {
+		request.post(api('login'))
+			.send({
+				user: {
+					email: adminEmail
+				},
+				password: adminPassword
+			})
+			.expect('Content-Type', 'application/json')
+			.expect(200)
+			.end(done);
 	});
 
 	it('/me', (done) => {
@@ -56,7 +66,7 @@ describe('miscellaneous', () => {
 				expect(res.body).to.have.property('username', login.user);
 				expect(res.body).to.have.property('active');
 				expect(res.body).to.have.property('name');
-				expect(res.body).to.have.deep.property('emails[0].address', adminEmail);
+				expect(res.body).to.have.nested.property('emails[0].address', adminEmail);
 			})
 			.end(done);
 	});

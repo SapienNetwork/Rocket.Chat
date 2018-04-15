@@ -1,9 +1,10 @@
 /* globals MongoInternals */
+import _ from 'underscore';
 
 const baseName = 'rocketchat_';
 import {EventEmitter} from 'events';
 
-const trash = new Mongo.Collection(baseName + '_trash');
+const trash = new Mongo.Collection(`${ baseName }_trash`);
 try {
 	trash._ensureIndex({ collection: 1 });
 	trash._ensureIndex({ _deletedAt: 1 }, { expireAfterSeconds: 60 * 60 * 24 * 30 });
@@ -11,7 +12,7 @@ try {
 	console.log(e);
 }
 
-let isOplogAvailable = MongoInternals.defaultRemoteCollectionDriver().mongo._oplogHandle && !!MongoInternals.defaultRemoteCollectionDriver().mongo._oplogHandle.onOplogEntry;
+const isOplogAvailable = MongoInternals.defaultRemoteCollectionDriver().mongo._oplogHandle && !!MongoInternals.defaultRemoteCollectionDriver().mongo._oplogHandle.onOplogEntry;
 let isOplogEnabled = isOplogAvailable;
 RocketChat.settings.get('Force_Disable_OpLog_For_Cache', (key, value) => {
 	isOplogEnabled = isOplogAvailable && value === false;
@@ -159,21 +160,7 @@ class ModelsBaseDb extends EventEmitter {
 	}
 
 	updateHasPositionalOperator(update) {
-		for (const key in update) {
-			if (key.includes('.$')) {
-				return true;
-			}
-
-			const value = update[key];
-
-			if (Match.test(value, Object)) {
-				if (this.updateHasPositionalOperator(value) === true) {
-					return true;
-				}
-			}
-		}
-
-		return false;
+		return Object.keys(update).some(key => key.includes('.$') || (!Match.test(update[key], Object) && this.updateHasPositionalOperator(update[key])));
 	}
 
 	processOplogRecord(action) {
@@ -202,9 +189,9 @@ class ModelsBaseDb extends EventEmitter {
 				return;
 			}
 
-			let diff = {};
+			const diff = {};
 			if (action.op.o.$set) {
-				for (let key in action.op.o.$set) {
+				for (const key in action.op.o.$set) {
 					if (action.op.o.$set.hasOwnProperty(key)) {
 						diff[key] = action.op.o.$set[key];
 					}
@@ -212,7 +199,7 @@ class ModelsBaseDb extends EventEmitter {
 			}
 
 			if (action.op.o.$unset) {
-				for (let key in action.op.o.$unset) {
+				for (const key in action.op.o.$unset) {
 					if (action.op.o.$unset.hasOwnProperty(key)) {
 						diff[key] = undefined;
 					}
@@ -259,7 +246,7 @@ class ModelsBaseDb extends EventEmitter {
 	update(query, update, options = {}) {
 		this.setUpdatedAt(update, true, query);
 
-		let strategy = this.defineSyncStrategy(query, update, options);
+		const strategy = this.defineSyncStrategy(query, update, options);
 		let ids = [];
 		if (!isOplogEnabled && this.listenerCount('change') > 0 && strategy === 'db') {
 			const findOptions = {fields: {_id: 1}};
@@ -317,9 +304,9 @@ class ModelsBaseDb extends EventEmitter {
 					action: 'update:query',
 					id: undefined,
 					data: {
-						query: query,
-						update: update,
-						options: options
+						query,
+						update,
+						options
 					},
 					oplog: false
 				});
@@ -370,7 +357,7 @@ class ModelsBaseDb extends EventEmitter {
 			const _id = args[0]._id;
 			delete args[0]._id;
 			args.unshift({
-				_id: _id
+				_id
 			});
 
 			this.upsert(...args);

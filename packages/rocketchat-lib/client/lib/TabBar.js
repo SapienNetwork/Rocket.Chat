@@ -1,3 +1,5 @@
+import _ from 'underscore';
+
 RocketChat.TabBar = new (class TabBar {
 	constructor() {
 		this.buttons = new ReactiveVar({});
@@ -18,7 +20,7 @@ RocketChat.TabBar = new (class TabBar {
 			return false;
 		}
 
-		let btns = this.buttons.curValue;
+		const btns = this.buttons.curValue;
 		btns[config.id] = config;
 
 		if (this.extraGroups[config.id]) {
@@ -29,13 +31,13 @@ RocketChat.TabBar = new (class TabBar {
 	}
 
 	removeButton(id) {
-		let btns = this.buttons.curValue;
+		const btns = this.buttons.curValue;
 		delete btns[id];
 		this.buttons.set(btns);
 	}
 
 	updateButton(id, config) {
-		let btns = this.buttons.curValue;
+		const btns = this.buttons.curValue;
 		if (btns[id]) {
 			btns[id] = _.extend(btns[id], config);
 			this.buttons.set(btns);
@@ -43,7 +45,11 @@ RocketChat.TabBar = new (class TabBar {
 	}
 
 	getButtons() {
-		return _.sortBy(_.toArray(this.buttons.get()), 'order');
+		const buttons = _.toArray(this.buttons.get()).filter(button => {
+			return !button.condition || button.condition();
+		});
+
+		return _.sortBy(buttons, 'order');
 	}
 
 	getButton(id) {
@@ -51,7 +57,7 @@ RocketChat.TabBar = new (class TabBar {
 	}
 
 	addGroup(id, groups) {
-		let btns = this.buttons.curValue;
+		const btns = this.buttons.curValue;
 		if (btns[id]) {
 			btns[id].groups = _.union((btns[id].groups || []), groups);
 			this.buttons.set(btns);
@@ -61,7 +67,7 @@ RocketChat.TabBar = new (class TabBar {
 	}
 
 	removeGroup(id, groups) {
-		let btns = this.buttons.curValue;
+		const btns = this.buttons.curValue;
 		if (btns[id]) {
 			btns[id].groups = _.difference((btns[id].groups || []), groups);
 			this.buttons.set(btns);

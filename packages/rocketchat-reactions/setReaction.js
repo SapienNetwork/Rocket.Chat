@@ -1,17 +1,19 @@
 /* globals msgStream */
+import _ from 'underscore';
+
 Meteor.methods({
 	setReaction(reaction, messageId) {
 		if (!Meteor.userId()) {
 			throw new Meteor.Error('error-invalid-user', 'Invalid user', { method: 'setReaction' });
 		}
 
-		let message = RocketChat.models.Messages.findOneById(messageId);
+		const message = RocketChat.models.Messages.findOneById(messageId);
 
 		if (!message) {
 			throw new Meteor.Error('error-not-allowed', 'Not allowed', { method: 'setReaction' });
 		}
 
-		let room = Meteor.call('canAccessRoom', message.rid, Meteor.userId());
+		const room = Meteor.call('canAccessRoom', message.rid, Meteor.userId());
 
 		if (!room) {
 			throw new Meteor.Error('error-not-allowed', 'Not allowed', { method: 'setReaction' });
@@ -30,6 +32,8 @@ Meteor.methods({
 		} else if (!RocketChat.models.Subscriptions.findOne({ rid: message.rid })) {
 			return false;
 		}
+
+		reaction = `:${ reaction.replace(/:/g, '') }:`;
 
 		if (message.reactions && message.reactions[reaction] && message.reactions[reaction].usernames.indexOf(user.username) !== -1) {
 			message.reactions[reaction].usernames.splice(message.reactions[reaction].usernames.indexOf(user.username), 1);
