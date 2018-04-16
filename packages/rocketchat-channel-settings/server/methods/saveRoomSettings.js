@@ -1,6 +1,6 @@
 const fields = ['roomName', 'roomTopic', 'roomAnnouncement', 'roomDescription', 'roomType', 'readOnly', 'reactWhenReadOnly', 'systemMessages', 'default', 'joinCode', 'tokenpass', 'streamingOptions'];
 Meteor.methods({
-	saveRoomSettings(rid, settings, value) {
+	saveRoomSettings(rid, settings, value, serverId) {
 		if (!Meteor.userId()) {
 			throw new Meteor.Error('error-invalid-user', 'Invalid user', {
 				'function': 'RocketChat.saveRoomName'
@@ -67,7 +67,7 @@ Meteor.methods({
 			const value = settings[setting];
 			switch (setting) {
 				case 'roomName':
-					RocketChat.saveRoomName(rid, value, user);
+					RocketChat.saveRoomName(rid, serverId, value, user);
 					break;
 				case 'roomTopic':
 					if (value !== room.topic) {

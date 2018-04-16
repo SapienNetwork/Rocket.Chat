@@ -18,7 +18,7 @@ export class PrivateRoomType extends RoomTypeConfig {
 	constructor() {
 		super({
 			identifier: 'p',
-			order: 40,
+			order: 50,
 			icon: 'lock',
 			label: 'Private_Groups',
 			route: new PrivateRoomRoute()

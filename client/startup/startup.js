@@ -127,5 +127,11 @@ Meteor.startup(function() {
 				fireGlobalEvent('status-changed', status);
 			}
 		});
+
+		Tracker.autorun(function() {
+			if (user && user.lastOpenServer) {
+				Session.set('currentServer', user.lastOpenServer);
+			}
+		});
 	});
 });

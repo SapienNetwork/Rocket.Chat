@@ -4,11 +4,11 @@ class ModelSubscriptions extends RocketChat.models._Base {
 	constructor() {
 		super(...arguments);
 
-		this.tryEnsureIndex({ 'rid': 1, 'u._id': 1 }, { unique: 1 });
+		this.tryEnsureIndex({ 'rid': 1, 'u._id': 1, 'serverId': 1 }, { unique: 1 });
 		this.tryEnsureIndex({ 'rid': 1, 'alert': 1, 'u._id': 1 });
 		this.tryEnsureIndex({ 'rid': 1, 'roles': 1 });
-		this.tryEnsureIndex({ 'u._id': 1, 'name': 1, 't': 1 });
-		this.tryEnsureIndex({ 'u._id': 1, 'name': 1, 't': 1, 'code': 1 }, { unique: 1 });
+		this.tryEnsureIndex({ 'u._id': 1, 'name': 1, 't': 1, 'serverId': 1 });
+		this.tryEnsureIndex({ 'u._id': 1, 'name': 1, 't': 1, 'code': 1, 'serverId': 1 }, { unique: 1 });
 		this.tryEnsureIndex({ 'open': 1 });
 		this.tryEnsureIndex({ 'alert': 1 });
 		this.tryEnsureIndex({ 'unread': 1 });
@@ -24,8 +24,8 @@ class ModelSubscriptions extends RocketChat.models._Base {
 		this.cache.ensureIndex('rid', 'array');
 		this.cache.ensureIndex('u._id', 'array');
 		this.cache.ensureIndex('name', 'array');
-		this.cache.ensureIndex(['rid', 'u._id'], 'unique');
-		this.cache.ensureIndex(['name', 'u._id'], 'unique');
+		this.cache.ensureIndex(['rid', 'u._id', 'serverId'], 'unique');
+		this.cache.ensureIndex(['name', 'u._id', 'serverId'], 'unique');
 	}
 
 
@@ -62,6 +62,19 @@ class ModelSubscriptions extends RocketChat.models._Base {
 
 		const query =
 			{'u._id': userId};
+
+		return this.find(query, options);
+	}
+
+	findByUserIdAndServers(userId, serverIds, options) {
+		serverIds = [].concat(serverIds);
+		const query = {
+			'u._id': userId,
+			$or: [
+				{ 'serverId': { $in: serverIds } },
+				{ t: 'd' }
+			]
+		};
 
 		return this.find(query, options);
 	}
@@ -575,7 +588,7 @@ class ModelSubscriptions extends RocketChat.models._Base {
 	}
 
 	// INSERT
-	createWithRoomAndUser(room, user, extraData) {
+	createWithRoomAndUser(room, user, serverId, extraData) {
 		const subscription = {
 			open: false,
 			alert: false,
@@ -588,6 +601,7 @@ class ModelSubscriptions extends RocketChat.models._Base {
 			fname: room.fname,
 			customFields: room.customFields,
 			t: room.t,
+			serverId,
 			u: {
 				_id: user._id,
 				username: user.username,
@@ -626,4 +640,4 @@ class ModelSubscriptions extends RocketChat.models._Base {
 	}
 }
 
-RocketChat.models.Subscriptions = new ModelSubscriptions('subscription', true);
+RocketChat.models.Subscriptions = new ModelSubscriptions('subscription');

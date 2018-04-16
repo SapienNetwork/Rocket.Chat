@@ -115,6 +115,7 @@ Template.directory.onCreated(function() {
 		const searchConfig = {
 			text: this.searchText.get(),
 			type: this.searchType.get(),
+			serverId: Session.get('currentServer'),
 			sortBy: this.searchSortBy.get(),
 			sortDirection: this.sortDirection.get(),
 			page: this.page.get()

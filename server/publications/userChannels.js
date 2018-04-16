@@ -11,6 +11,7 @@ Meteor.publish('userChannels', function(userId) {
 		fields: {
 			rid: 1,
 			name: 1,
+			serverId: 1,
 			t: 1,
 			u: 1
 		},

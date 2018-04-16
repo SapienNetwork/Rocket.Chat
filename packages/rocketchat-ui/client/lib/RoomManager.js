@@ -7,14 +7,13 @@ const RoomManager = new function() {
 	const Dep = new Tracker.Dependency();
 	const Cls = class {
 		static initClass() {
-			/* globals CachedChatRoom CachedChatSubscription */
 			this.prototype.openedRooms = openedRooms;
 			this.prototype.onlineUsers = onlineUsers;
 			this.prototype.computation = Tracker.autorun(() => {
 				Object.keys(openedRooms).forEach(typeName => {
 					const record = openedRooms[typeName];
 					if (record.active !== true || record.ready === true) { return; }
-					const ready = CachedChatRoom.ready.get() && RocketChat.mainReady.get();
+					const ready = RocketChat.mainReady.get();
 					if (ready !== true) { return; }
 					const user = Meteor.user();
 
@@ -156,7 +155,7 @@ const RoomManager = new function() {
 				this.closeOlderRooms();
 			}
 
-			if (CachedChatSubscription.ready.get() === true) {
+			if (FlowRouter.subsReady('subscriptions') === true) {
 
 				if (openedRooms[typeName].active !== true) {
 					openedRooms[typeName].active = true;

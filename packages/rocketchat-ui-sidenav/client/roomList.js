@@ -19,7 +19,11 @@ Template.roomList.helpers({
 		const user = Meteor.user();
 		const sortBy = RocketChat.getUserPreference(user, 'sidebarSortby') || 'alphabetical';
 		const query = {
-			open: true
+			open: true,
+			$or: [
+				{ serverId: Session.get('currentServer') },
+				{ t: 'd' }
+			]
 		};
 
 		const sort = {};

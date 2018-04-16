@@ -1,5 +1,7 @@
+// XXX
 Meteor.methods({
-	joinDefaultChannels(silenced) {
+	joinDefaultChannels(serverId, silenced) {
+		check(serverId, String);
 		check(silenced, Match.Optional(Boolean));
 
 		if (!Meteor.userId()) {
@@ -7,6 +9,6 @@ Meteor.methods({
 		}
 
 		this.unblock();
-		return RocketChat.addUserToDefaultChannels(Meteor.user(), silenced);
+		return RocketChat.addUserToDefaultChannels(Meteor.user(), serverId, silenced);
 	}
 });

@@ -161,7 +161,7 @@ Template.adminRoomInfo.onCreated(function() {
 			case 'roomName':
 				if (this.validateRoomName(rid)) {
 					RocketChat.callbacks.run('roomNameChanged', AdminChatRoom.findOne(rid));
-					Meteor.call('saveRoomSettings', rid, 'roomName', this.$('input[name=roomName]').val(), function(err) {
+					Meteor.call('saveRoomSettings', rid, 'roomName', this.$('input[name=roomName]').val(), Session.get('currentServer'), function(err) {
 						if (err) {
 							return handleError(err);
 						}

@@ -149,6 +149,7 @@ class SlackBridge {
 				}
 
 				try {
+					// XXX serverId ??
 					const rocketChannel = RocketChat.createRoom(isGroup ? 'p' : 'c', rocketChannelData.name, rocketUserCreator.username, rocketUsers);
 					rocketChannelData.rocketId = rocketChannel.rid;
 				} catch (e) {
@@ -516,7 +517,8 @@ class SlackBridge {
 				if (isImporting) {
 					RocketChat.models.Messages.createRoomRenamedWithRoomIdRoomNameAndUser(rocketChannel._id, slackMessage.name, rocketUser, { ts: new Date(parseInt(slackMessage.ts.split('.')[0]) * 1000), imported: 'slackbridge' });
 				} else {
-					RocketChat.saveRoomName(rocketChannel._id, slackMessage.name, rocketUser, false);
+					// XXX serverId ??
+					RocketChat.saveRoomName(rocketChannel._id, serverId, slackMessage.name, rocketUser, false);
 				}
 				return;
 			case 'channel_archive':

@@ -10,8 +10,11 @@ BlazeLayout.setRoot('body');
 FlowRouter.subscriptions = function() {
 	Tracker.autorun(() => {
 		if (Meteor.userId()) {
+			this.register('serverRooms', Meteor.subscribe('serverRooms'));
 			this.register('userData', Meteor.subscribe('userData'));
 			this.register('activeUsers', Meteor.subscribe('activeUsers'));
+			this.register('servers', Meteor.subscribe('servers'));
+			this.register('subscriptions', Meteor.subscribe('subscriptions'));
 		}
 	});
 };

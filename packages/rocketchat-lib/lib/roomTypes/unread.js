@@ -4,7 +4,7 @@ export class UnreadRoomType extends RoomTypeConfig {
 	constructor() {
 		super({
 			identifier: 'unread',
-			order: 10,
+			order: 20,
 			label: 'Unread'
 		});
 

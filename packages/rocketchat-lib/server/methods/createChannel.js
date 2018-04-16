@@ -1,6 +1,7 @@
 Meteor.methods({
-	createChannel(name, members, readOnly = false, customFields = {}) {
+	createChannel(name, serverId, members, readOnly = false, customFields = {}) {
 		check(name, String);
+		check(serverId, String);
 		check(members, Match.Optional([String]));
 
 		if (!Meteor.userId()) {
@@ -11,6 +12,6 @@ Meteor.methods({
 			throw new Meteor.Error('error-not-allowed', 'Not allowed', { method: 'createChannel' });
 		}
 
-		return RocketChat.createRoom('c', name, Meteor.user() && Meteor.user().username, members, readOnly, {customFields});
+		return RocketChat.createRoom('c', name, serverId, Meteor.user() && Meteor.user().username, members, readOnly, {customFields});
 	}
 });

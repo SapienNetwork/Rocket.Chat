@@ -1,7 +1,8 @@
 Meteor.methods({
-	addAllUserToRoom(rid, activeUsersOnly = false) {
+	addAllUserToRoom(rid, serverId, activeUsersOnly = false) {
 
 		check (rid, String);
+		check (serverId, Boolean);
 		check (activeUsersOnly, Boolean);
 
 		if (RocketChat.authz.hasRole(this.userId, 'admin') === true) {
@@ -33,7 +34,7 @@ Meteor.methods({
 				}
 				RocketChat.callbacks.run('beforeJoinRoom', user, room);
 				RocketChat.models.Rooms.addUsernameById(rid, user.username);
-				RocketChat.models.Subscriptions.createWithRoomAndUser(room, user, {
+				RocketChat.models.Subscriptions.createWithRoomAndUser(room, user, serverId, {
 					ts: now,
 					open: true,
 					alert: true,

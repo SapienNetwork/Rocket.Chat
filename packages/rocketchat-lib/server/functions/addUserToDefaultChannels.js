@@ -1,4 +1,5 @@
-RocketChat.addUserToDefaultChannels = function(user, silenced) {
+// XXX
+RocketChat.addUserToDefaultChannels = function(user, serverId, silenced) {
 	RocketChat.callbacks.run('beforeJoinDefaultChannels', user);
 	const defaultRooms = RocketChat.models.Rooms.findByDefaultAndTypes(true, ['c', 'p'], {fields: {usernames: 0}}).fetch();
 	defaultRooms.forEach((room) => {
@@ -10,7 +11,7 @@ RocketChat.addUserToDefaultChannels = function(user, silenced) {
 		if (!RocketChat.models.Subscriptions.findOneByRoomIdAndUserId(room._id, user._id)) {
 
 			// Add a subscription to this user
-			RocketChat.models.Subscriptions.createWithRoomAndUser(room, user, {
+			RocketChat.models.Subscriptions.createWithRoomAndUser(room, user, serverId, {
 				ts: new Date(),
 				open: true,
 				alert: true,

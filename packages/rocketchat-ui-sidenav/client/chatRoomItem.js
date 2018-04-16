@@ -19,6 +19,11 @@ Template.chatRoomItem.helpers({
 
 		const archivedClass = this.archived ? 'archived' : false;
 
+		let isServer = !this.serverId;
+		if (this.t === 'd') {
+			isServer = false;
+		}
+
 		this.alert = !this.hideUnreadStatus && (FlowRouter.getParam('_id') !== this.rid || !document.hasFocus()) && this.alert;
 
 		const icon = RocketChat.roomTypes.getIcon(this.t);
@@ -34,6 +39,7 @@ Template.chatRoomItem.helpers({
 			unread,
 			active,
 			archivedClass,
+			isServer,
 			statusClass: this.t === 'd' ? Session.get(`user_${ this.name }_status`) || 'offline' : this.t === 'l' ? RocketChat.roomTypes.getUserStatus(this.t, this.rid) || 'offline' : false
 		};
 

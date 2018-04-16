@@ -193,6 +193,7 @@ Template.createChannel.events({
 		const type = instance.type.get();
 		const readOnly = instance.readOnly.get();
 		const isPrivate = type === 'p';
+		const serverId = Session.get('currentServer');
 
 		if (instance.invalid.get() || instance.inUse.get()) {
 			return e.target.name.focus();
@@ -206,7 +207,7 @@ Template.createChannel.events({
 				return { ...result, ...instance.extensions_submits[key](instance) };
 			}, {});
 
-		Meteor.call(isPrivate ? 'createPrivateGroup' : 'createChannel', name, instance.selectedUsers.get().map(user => user.username), readOnly, {}, extraData, function(err, result) {
+		Meteor.call(isPrivate ? 'createPrivateGroup' : 'createChannel', name, serverId, instance.selectedUsers.get().map(user => user.username), readOnly, {}, extraData, function(err, result) {
 			if (err) {
 				if (err.error === 'error-invalid-name') {
 					return instance.invalid.set(true);
@@ -265,7 +266,7 @@ Template.createChannel.onCreated(function() {
 	this.tokensRequired = new ReactiveVar(false);
 	this.checkChannel = _.debounce((name) => {
 		if (validateChannelName(name)) {
-			return Meteor.call('roomNameExists', name, (error, result) => {
+			return Meteor.call('roomNameExists', name, Session.get('currentServer'), (error, result) => {
 				if (error) {
 					return;
 				}

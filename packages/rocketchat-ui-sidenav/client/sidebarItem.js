@@ -80,8 +80,14 @@ Template.sidebarItem.onCreated(function() {
 
 Template.sidebarItem.events({
 	'click [data-id], click .sidebar-item__link'() {
-		window.simplePostMessage('open_full_page_chat','*')
-		return menu.close();
+		// XXX This to identify server item, not a perfect solution but we may improve after integration
+		if (this.isServer) {
+			Session.set('currentServer', this._id);
+			menu.close();
+			return FlowRouter.goToRoomById(this.defaultRoom);
+		}
+		// window.simplePostMessage('open_full_page_chat','*')
+		// return menu.close();
 	},
 	'click .sidebar-item__menu'(e) {
 		e.preventDefault();

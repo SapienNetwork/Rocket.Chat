@@ -101,9 +101,11 @@ Template.createCombinedFlex.events({
 		const readOnly = instance.find('#channel-ro').checked;
 		const createRoute = privateGroup ? 'createPrivateGroup' : 'createChannel';
 		const successRoute = privateGroup ? 'group' : 'channel';
+		const serverId = Session.get('currentServer');
+
 		instance.roomName.set(name);
 		if (!err) {
-			return Meteor.call(createRoute, name, instance.selectedUsers.get(), readOnly, function(err, result) {
+			return Meteor.call(createRoute, name, serverId, instance.selectedUsers.get(), readOnly, function(err, result) {
 				if (err) {
 					if (err.error === 'error-invalid-room-name') {
 						instance.error.set({ invalid: true });

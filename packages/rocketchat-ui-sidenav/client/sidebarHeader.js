@@ -119,29 +119,6 @@ const toolbarButtons = (user) => {
 		}
 	},
 	{
-		name: t('Sort'),
-		icon: 'sort',
-		action: (e) => {
-			const options = [];
-			const config = {
-				template: 'sortlist',
-				mousePosition: () => ({
-					x: e.currentTarget.getBoundingClientRect().left,
-					y: e.currentTarget.getBoundingClientRect().bottom + 50
-				}),
-				customCSSProperties: () => ({
-					top:  `${ e.currentTarget.getBoundingClientRect().bottom + 10 }px`,
-					left: `${ e.currentTarget.getBoundingClientRect().left - 10 }px`
-				}),
-				data: {
-					// value: instance.form[key].get(),
-					options
-				}
-			};
-			popover.open(config);
-		}
-	},
-	{
 		name: t('Create_A_New_Channel'),
 		icon: 'edit-rounded',
 		condition: () => RocketChat.authz.hasAtLeastOnePermission(['create-c', 'create-p']),
@@ -253,6 +230,106 @@ Template.sidebarHeader.events({
 		}
 		return this.action && this.action.apply(this, [e]);
 	},
+	'click .sidebar__header .server'(e) {
+		if (!(Meteor.userId() == null && RocketChat.settings.get('Accounts_AllowAnonymousRead'))) {
+			const addServer = {
+				icon: 'customize',
+				name: 'Add Server',
+				type: 'open',
+				id: 'addServer',
+				action: () => {
+					const text = `\
+					<div class='create-server'>
+						<div class="rc-input__wrapper">
+							<input class="rc-input__element" id='server-name' style='display: inherit;' value='' placeholder='server name'>
+						</div>
+						<div class="rc-input__wrapper">
+							<input class="rc-input__element" id='server-description' style='display: inherit;' value='' placeholder='server description'>
+						</div>
+					</div>`;
+
+					modal.open(
+						{
+							title: 'Create new server',
+							text,
+							showCancelButton: true,
+							confirmButtonText: 'Create',
+							closeOnConfirm: true,
+							closeOnCancel: true,
+							html: true
+						},
+						function(isConfirm) {
+
+							const name = document.getElementById('server-name').value;
+							const description = document.getElementById('server-description').value;
+							if (isConfirm !== true) {
+								return;
+							}
+
+							if (!name) {
+								modal.open({
+									title: 'Name can not be empty',
+									type: 'error',
+									timer: 1000
+								});
+								return;
+							}
+
+							Meteor.call('createServer', name, description, err => {
+								if (!err) {
+									modal.open({
+										title: t('Saved'),
+										type: 'success',
+										timer: 1000,
+										showConfirmButton: false
+									});
+								}
+							});
+						}
+					);
+					popover.close();
+				}
+			};
+			const servers = Servers.find().fetch();
+			const config = {
+				popoverClass: 'sidebar-header',
+				columns: [
+					{
+						groups: [
+							{
+								title: 'Servers',
+								items: servers.map(item => {
+									const action = () => {
+										Session.set('currentServer', item._id);
+										Meteor.call('setLastOpenServer', item._id);
+										popover.close();
+									};
+
+									return {
+										icon: 'circle',
+										name: t(item.name),
+										type: 'open',
+										id: item._id,
+										action
+									};
+								}).concat([addServer])
+							}
+						]
+					}
+				],
+				mousePosition: () => ({
+					x: e.currentTarget.getBoundingClientRect().left,
+					y: e.currentTarget.getBoundingClientRect().bottom + 50
+				}),
+				customCSSProperties: () => ({
+					top:  `${ e.currentTarget.getBoundingClientRect().bottom + 10 }px`,
+					left: `${ e.currentTarget.getBoundingClientRect().left - 10 }px`
+				})
+			};
+
+			popover.open(config);
+		}
+	},
 	'click .sidebar__header .avatar'(e) {
 		if (!(Meteor.userId() == null && RocketChat.settings.get('Accounts_AllowAnonymousRead'))) {
 			const user = Meteor.user();
@@ -266,25 +343,25 @@ Template.sidebarHeader.events({
 								items: [
 									{
 										icon: 'circle',
-										name: t('Online'),
+										name: t('online'),
 										modifier: 'online',
 										action: () => setStatus('online')
 									},
 									{
 										icon: 'circle',
-										name: t('Away'),
+										name: t('away'),
 										modifier: 'away',
 										action: () => setStatus('away')
 									},
 									{
 										icon: 'circle',
-										name: t('Busy'),
+										name: t('busy'),
 										modifier: 'busy',
 										action: () => setStatus('busy')
 									},
 									{
 										icon: 'circle',
-										name: t('Invisible'),
+										name: t('invisible'),
 										modifier: 'offline',
 										action: () => setStatus('offline')
 									}
@@ -306,7 +383,7 @@ Template.sidebarHeader.events({
 									},
 									{
 										icon: 'sign-out',
-										name: t('Logout'),
+										name: 'Sign Out',
 										type: 'open',
 										id: 'logout',
 										action: () => {
