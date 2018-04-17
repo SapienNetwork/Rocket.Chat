@@ -1,0 +1,25 @@
+dependencies:
+  cache_directories:
+    - "node_modules"
+    - "~/.npm"
+    - "~/.meteor"
+  override:
+    # Cache Meteor
+    - if [ -d ~/.meteor ]; then sudo ln -s ~/.meteor/meteor /usr/local/bin/meteor; fi
+    - if [ ! -e $HOME/.meteor/meteor ]; then curl https://install.meteor.com | sh; fi
+    - meteor npm install
+test:
+  override:
+    - npm run dev:
+        background: true
+    - sleep 10
+    - npm run test
+deployment:
+  staging:
+    branch: develop-staging-env
+    commands:
+      - ./deploy/staging/deploy.sh
+  production:
+    branch: master
+    commands:
+      - ./deploy/production/deploy.sh
