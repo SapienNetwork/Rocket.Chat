@@ -19,7 +19,7 @@ deployment:
     branch: develop-staging-env
     commands:
       - ./deploy/staging/deploy.sh:
-        timeout: 7200
+        timeout: 1200
   production:
     branch: master
     commands:
