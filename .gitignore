@@ -73,3 +73,7 @@ pm2.json
 settings.json
 build.sh
 /public/livechat
+deploy/staging/settings-staging.json
+deploy/staging/deployment_token.json
+deploy/production/settings-production.json
+deploy/production/deployment_token.json
