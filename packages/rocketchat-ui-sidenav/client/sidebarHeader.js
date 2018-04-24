@@ -248,6 +248,10 @@ Template.sidebarHeader.helpers({
 
 Template.sidebarHeader.events({
 	'click .js-button'(e) {
+		const label = e.currentTarget.getAttribute('aria-label');
+		if (label === 'Directory' || label === 'View Mode' || label === 'Sort' || label === 'Create a New Channel') {
+			window.parent.postMessage('open_full_page_chat','*');
+		}
 		if (document.activeElement === e.currentTarget) {
 			e.currentTarget.blur();
 		}
