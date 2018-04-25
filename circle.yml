@@ -16,7 +16,7 @@ test:
     - npm run test
 deployment:
   staging:
-    branch: develop-staging-env
+    branch: develop
     commands:
       - ./deploy/staging/deploy.sh:
           timeout: 2400
