@@ -41,6 +41,35 @@ Meteor.startup(function() {
 			});
 		}
 
+		if (!RocketChat.models.Users.db.findOneById('sapien.admin')) {
+			const username = Meteor.settings && Meteor.settings.RCAdminCreds && Meteor.settings.RCAdminCreds.username;
+			const password = Meteor.settings && Meteor.settings.RCAdminCreds && Meteor.settings.RCAdminCreds.password;
+			if (username && password) {
+				const adminUser = {
+					_id: 'sapien.admin',
+					name: 'sapien admin',
+					username,
+					emails: [
+						{
+							address: 'team@sapien.network',
+							verified: true
+						}
+					],
+					status: 'offline',
+					statusDefault: 'online',
+					utcOffset: 0,
+					active: true,
+					type: 'user'
+				}
+	
+				RocketChat.models.Users.create(adminUser);
+				Accounts.setPassword(adminUser._id, password);
+				RocketChat.authz.addUserRoles(adminUser._id, 'admin');
+				RocketChat.addUserToDefaultChannels(adminUser, true);
+				console.log('Sapien admin Created'.green)
+			}
+		}
+
 		if (process.env.ADMIN_PASS) {
 			if (_.isEmpty(RocketChat.authz.getUsersInRole('admin').fetch())) {
 				console.log('Inserting admin user:'.green);
