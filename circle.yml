@@ -10,9 +10,6 @@ dependencies:
     - meteor npm install
 test:
   override:
-    - npm run dev:
-        background: true
-    - sleep 10
     - npm run test
 deployment:
   staging:
@@ -23,4 +20,5 @@ deployment:
   production:
     branch: master
     commands:
-      - ./deploy/production/deploy.sh
+      - ./deploy/production/deploy.sh:
+          timeout: 2400
