@@ -22,13 +22,13 @@ Meteor.startup(function() {
 			return false;
 		}
 
-		const userHasSettings = user.hasOwnProperty('settings');
+		const userHasSettings = user && user.settings;
 
 		if (!userHasSettings) {
 			return false;
 		}
-
-		return user.settings.hasOwnProperty('preferences');
+		console.log('workd here');
+		return user && user.settings && user.settings.preferences;
 	};
 
 	Meteor.subscribe('activeUsers');
