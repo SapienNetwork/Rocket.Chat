@@ -13,7 +13,7 @@ $( ".rc-button--square" ).click(function() {
 window.addEventListener('message', (e) => {
 	//console.log("WINDOWEVENT");
 	//console.log(e.data.externalCommand);
-	window.simplePostMessage('test','*')
+	// window.simplePostMessage('test','*')
 
 
 	if (RocketChat.settings.get('Iframe_Integration_receive_enable') !== true) {

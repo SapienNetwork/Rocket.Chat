@@ -9,6 +9,9 @@ Template.sidebarItem.helpers({
 	isRoom() {
 		return this.rid || this._id;
 	},
+	isExtendedViewMode() {
+		return RocketChat.getUserPreference(Meteor.user(), 'sidebarViewMode') === 'extended';
+	},
 	lastMessage() {
 		return this.lastMessage && Template.instance().renderedMessage;
 	},
@@ -20,6 +23,9 @@ Template.sidebarItem.helpers({
 	},
 	mySelf() {
 		return this.t === 'd' && this.name === Meteor.user().username;
+	},
+	isLivechatQueue() {
+		return this.pathSection === 'livechat-queue';
 	}
 });
 
@@ -72,9 +78,14 @@ Template.sidebarItem.onCreated(function() {
 	});
 });
 
+Template.sidebarItem.onRendered(function() {
+	window.parent.postMessage('channel_rendered','https://staging-sapien.sapien.network/');
+});
+
 Template.sidebarItem.events({
 	'click [data-id], click .sidebar-item__link'() {
-		window.simplePostMessage('open_full_page_chat','*')
+		//window.simplePostMessage('open_full_page_chat','*')
+		window.parent.postMessage('open_full_page_chat','https://staging-sapien.sapien.network/');
 		return menu.close();
 	},
 	'click .sidebar-item__menu'(e) {

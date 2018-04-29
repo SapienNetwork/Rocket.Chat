@@ -9,14 +9,13 @@ Meteor.methods({
         method: 'joinRoom'
       });
     }
-   
     if (room.t == 'c'){
       return RocketChat.addUserToRoom(rid, user);
     }
     else if (room.t == 'p'){
-      if(room.invitedUsers && room.invitedUsers.contains(username)){
-        return RocketChat.addUserToRoom(rid, user);
-      }
+      //if(room.invitedUsers && room.invitedUsers.contains(username)){
+      return RocketChat.addUserToRoom(rid, user);
+      //}
     }
 
     throw new Meteor.Error('error-not-allowed', 'Not allowed', {
