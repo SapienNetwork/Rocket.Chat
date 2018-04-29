@@ -18,7 +18,7 @@ deployment:
       - ./deploy/staging/deploy.sh:
           timeout: 2400
   production:
-    branch: develop-production-env
+    branch: master
     commands:
       - ./deploy/production/deploy.sh:
           timeout: 2400
