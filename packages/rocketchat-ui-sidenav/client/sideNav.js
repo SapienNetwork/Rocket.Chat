@@ -69,6 +69,8 @@ Template.sideNav.onRendered(function() {
 		FlowRouter.go(`/channel/${ first_channel_login }`);
 	}
 
+	window.parent.postMessage('chat_rendered','*');
+
 	return Meteor.defer(() => menu.updateUnreadBars());
 });
 
