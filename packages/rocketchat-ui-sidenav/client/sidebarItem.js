@@ -79,13 +79,13 @@ Template.sidebarItem.onCreated(function() {
 });
 
 Template.sidebarItem.onRendered(function() {
-	window.parent.postMessage('channel_rendered','https://staging-sapien.sapien.network/');
+	window.parent.postMessage('channel_rendered','*');
 });
 
 Template.sidebarItem.events({
 	'click [data-id], click .sidebar-item__link'() {
 		//window.simplePostMessage('open_full_page_chat','*')
-		window.parent.postMessage('open_full_page_chat','https://staging-sapien.sapien.network/');
+		window.parent.postMessage('open_full_page_chat','*');
 		return menu.close();
 	},
 	'click .sidebar-item__menu'(e) {
