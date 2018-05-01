@@ -7,11 +7,11 @@ Template.chatRoomItem.helpers({
 			name = this.fname;
 		}
 
-		if (this.t==='p' && this.fname.includes('-')) {
+		/*if (this.t==='p' && this.fname.includes('-')) {
 			var array = this.fname.split('-');
 			array.pop();
 			name = array.join('-');
-		}
+		}//*/
 
 		let unread = false;
 		if (((FlowRouter.getParam('_id') !== this.rid) || !document.hasFocus()) && (this.unread > 0)) {
