@@ -1,0 +1,1 @@
+meteor -p 9292 --settings settings-dev.json
