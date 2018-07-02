@@ -5,7 +5,8 @@ Template.videoCall.onCreated(function() {
 
 Template.videoCall.helpers({
 	videoAvaliable() {
-		return WebRTC.getInstanceByRoomId(Session.get('openedRoom')) != null;
+		return false;
+		// return WebRTC.getInstanceByRoomId(Session.get('openedRoom')) != null;
 	},
 	videoActive() {
 		const webrtc = WebRTC.getInstanceByRoomId(Session.get('openedRoom'));

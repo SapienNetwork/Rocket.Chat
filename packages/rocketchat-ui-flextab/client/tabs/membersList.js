@@ -131,13 +131,13 @@ Template.membersList.helpers({
 	},
 
 	showUserInfo() {
-		const webrtc = WebRTC.getInstanceByRoomId(this.rid);
+		// const webrtc = WebRTC.getInstanceByRoomId(this.rid);
 		let videoActive = undefined;
-		if (webrtc && webrtc.localUrl && webrtc.localUrl.get()) {
-			videoActive = webrtc.localUrl.get();
-		} else if (webrtc && webrtc.remoteItems && webrtc.remoteItems.get() && webrtc.remoteItems.get().length > 0) {
-			videoActive = webrtc.remoteItems.get();
-		}
+		// if (webrtc && webrtc.localUrl && webrtc.localUrl.get()) {
+		// 	videoActive = webrtc.localUrl.get();
+		// } else if (webrtc && webrtc.remoteItems && webrtc.remoteItems.get() && webrtc.remoteItems.get().length > 0) {
+		// 	videoActive = webrtc.remoteItems.get();
+		// }
 		return Template.instance().showDetail.get() && !videoActive;
 	},
 

@@ -41,7 +41,7 @@ const roomMap = (record) => {
 	if (record._room) {
 		return _.pick(record._room, ...Object.keys(fields));
 	}
-	console.log('Empty Room for Subscription', record);
+	// console.log('Empty Room for Subscription', record);
 	return {};
 };
 

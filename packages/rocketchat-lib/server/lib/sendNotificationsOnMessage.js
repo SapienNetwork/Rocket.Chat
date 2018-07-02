@@ -282,8 +282,8 @@ RocketChat.callbacks.add('afterSaveMessage', function(message, room, userId) {
 
 		// Always notify Sandstorm
 		if (userOfMention != null) {
-			RocketChat.Sandstorm.notify(message, [userOfMention._id],
-				`@${ user.username }: ${ message.msg }`, 'privateMessage');
+			// RocketChat.Sandstorm.notify(message, [userOfMention._id],
+			// 	`@${ user.username }: ${ message.msg }`, 'privateMessage');
 
 			if (canBeNotified(userOfMentionId, 'desktop')) {
 				const duration = settings.desktopNotificationDurations[userOfMention._id];
@@ -452,9 +452,9 @@ RocketChat.callbacks.add('afterSaveMessage', function(message, room, userId) {
 		}
 		sendPushNotifications(userIdsToPushNotify, message, room, push_room, push_username, push_message, pushUsernames);
 
-		const allUserIdsToNotify = _.unique(userIdsToNotify.concat(userIdsToPushNotify));
-		RocketChat.Sandstorm.notify(message, allUserIdsToNotify,
-			`@${ user.username }: ${ message.msg }`, room.t === 'p' ? 'privateMessage' : 'message');
+		// const allUserIdsToNoxtify = _.unique(userIdsToNotify.concat(userIdsToPushNotify));
+		// RocketChat.Sandstorm.notify(message, allUserIdsToNotify,
+			// `@${ user.username }: ${ message.msg }`, room.t === 'p' ? 'privateMessage' : 'message');
 	}
 
 	return message;

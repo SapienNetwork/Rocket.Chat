@@ -2,7 +2,7 @@ import httpProxy from 'http-proxy';
 import fs from 'fs';
 
 Meteor.startup(() => {
-  if (Meteor.settings && Meteor.settings.env === 'development') {    
+  if (Meteor.settings && Meteor.settings.env === 'development' && Meteor.settings && Meteor.settings.localSSL === true) {    
     proxy = httpProxy.createServer({
       target: {
         host: 'localhost',
