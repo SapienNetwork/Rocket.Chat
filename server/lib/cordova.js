@@ -213,5 +213,5 @@ function configurePush() {
 }
 
 Meteor.startup(function() {
-	return configurePush();
+	// return configurePush();
 });

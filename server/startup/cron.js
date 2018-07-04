@@ -32,15 +32,15 @@ function cleanupOEmbedCache() {
 
 Meteor.startup(function() {
 	return Meteor.defer(function() {
-		generateStatistics();
+		// generateStatistics();
 
-		SyncedCron.add({
-			name: 'Generate and save statistics',
-			schedule(parser) {
-				return parser.cron(`${ new Date().getMinutes() } * * * *`);
-			},
-			job: generateStatistics
-		});
+		// SyncedCron.add({
+		// 	name: 'Generate and save statistics',
+		// 	schedule(parser) {
+		// 		return parser.cron(`${ new Date().getMinutes() } * * * *`);
+		// 	},
+		// 	job: generateStatistics
+		// });
 
 		SyncedCron.add({
 			name: 'Cleanup OEmbed cache',

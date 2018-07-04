@@ -77,3 +77,5 @@ deploy/staging/settings-staging.json
 deploy/staging/deployment_token.json
 deploy/production/settings-production.json
 deploy/production/deployment_token.json
+private/localhost.crt
+private/localhost.key

@@ -978,21 +978,21 @@ Template.room.onRendered(function() {
 	// salva a data da renderização para exibir alertas de novas mensagens
 	$.data(this.firstNode, 'renderedAt', new Date);
 
-	const webrtc = WebRTC.getInstanceByRoomId(template.data._id);
-	if (webrtc != null) {
-		Tracker.autorun(() => {
-			const remoteItems = webrtc.remoteItems.get();
-			if (remoteItems && remoteItems.length > 0) {
-				this.tabBar.setTemplate('membersList');
-				this.tabBar.open();
-			}
+	// const webrtc = WebRTC.getInstanceByRoomId(template.data._id);
+	// if (webrtc != null) {
+	// 	Tracker.autorun(() => {
+	// 		const remoteItems = webrtc.remoteItems.get();
+	// 		if (remoteItems && remoteItems.length > 0) {
+	// 			this.tabBar.setTemplate('membersList');
+	// 			this.tabBar.open();
+	// 		}
 
-			if (webrtc.localUrl.get() != null) {
-				this.tabBar.setTemplate('membersList');
-				this.tabBar.open();
-			}
-		});
-	}
+	// 		if (webrtc.localUrl.get() != null) {
+	// 			this.tabBar.setTemplate('membersList');
+	// 			this.tabBar.open();
+	// 		}
+	// 	});
+	// }
 	RocketChat.callbacks.add('streamMessage', (msg) => {
 		if (rid !== msg.rid || msg.editedAt) {
 			return;
